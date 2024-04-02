@@ -1,10 +1,32 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { gColors } from "../../../global/styles/gColors";
+import { TypeAddRecipeButton } from "../types";
 
-export default function BottomButtons({ navigation }: { navigation: any }) {
+const checkNotEmpty = (props: TypeAddRecipeButton) => {
+  if (props.title === "") {
+    props.setTitleWarning("Заполните это поле");
+  } else {
+    props.setTitleWarning("");
+  }
+};
+
+const checkValidLink = (props: TypeAddRecipeButton) => {
+  if (props.link.indexOf("https://") !== 0) {
+    props.setLinkWarning("Ссылка должна начитьнаться с https://");
+  } else {
+    props.setLinkWarning("");
+  }
+};
+
+export default function BottomButtons(props: TypeAddRecipeButton) {
   const handleButtonClick = () => {
-    navigation.goBack();
+    checkNotEmpty(props);
+    checkValidLink(props);
+
+    if (props.titleWarning === "" && props.linkWarning === "") {
+      props.navigation.goBack();
+    }
   };
   return (
     <View style={styles.container}>

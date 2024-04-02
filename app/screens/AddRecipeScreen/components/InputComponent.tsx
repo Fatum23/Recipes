@@ -1,10 +1,8 @@
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import React from "react";
 import { gColors } from "../../../global/styles/gColors";
+import { TypeInputComponent } from "../types";
 
-type TypeInputComponent = {
-  title: string;
-};
 export default function InputComponent(props: TypeInputComponent) {
   const styles = StyleSheet.create({
     container: {
@@ -28,12 +26,24 @@ export default function InputComponent(props: TypeInputComponent) {
       marginRight: 10,
       height: props.title !== "Описание" ? 45 : 145,
       textAlignVertical: props.title !== "Описание" ? "center" : "top",
+      color:
+        props.title === "Ссылка"
+          ? props.value.indexOf("https://") === 0
+            ? "dodgerblue"
+            : "black"
+          : "black",
     },
   });
   return (
     <View style={styles.container}>
       <Text style={styles.text}>{props.title}:</Text>
-      <TextInput style={styles.input} selectionColor={gColors.green} multiline={true} />
+      <TextInput
+        style={styles.input}
+        selectionColor={gColors.green}
+        multiline={props.title === "Описание" ? true : false}
+        onChangeText={(text) => props.setValue(text)}
+        defaultValue={props.value}
+      />
     </View>
   );
 }
