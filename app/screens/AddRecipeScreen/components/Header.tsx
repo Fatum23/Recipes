@@ -1,19 +1,15 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 
 export default function Header({ navigation }: { navigation: any }) {
   return (
     <View style={styles.container}>
-      <TouchableOpacity activeOpacity={0.1} onPress={() => navigation.goBack()}>
-        <AntDesign name="close" size={32} color="black" />
-      </TouchableOpacity>
+      <View>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <AntDesign name="close" size={32} color="black" />
+        </TouchableOpacity>
+      </View>
       <View>
         <Text style={styles.title}>Добавить рецепт</Text>
       </View>
@@ -36,7 +32,6 @@ const styles = StyleSheet.create({
   title: {
     alignSelf: "center",
     fontSize: 22,
-    // fontFamily: "Gilroy-Medium",
-    letterSpacing: 0,
+    fontWeight: "bold",
   },
 });

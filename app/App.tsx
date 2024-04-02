@@ -18,8 +18,6 @@ function App() {
   const [fontsLoaded] = useFonts({
     "Gilroy-Medium": require("./global/assets/fonts/Gilroy-Medium.ttf"),
     "Montserrat-Medium": require("./global/assets/fonts/Montserrat-Medium.ttf"),
-    Consolas: require("./global/assets/fonts/Consolas.ttf"),
-    DroidSansMono: require("./global/assets/fonts/DroidSansMono.ttf"),
   });
   if (fontsLoaded) {
     SplashScreen.hideAsync();

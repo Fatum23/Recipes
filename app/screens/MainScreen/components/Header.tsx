@@ -44,8 +44,6 @@ const styles = StyleSheet.create({
     borderColor: gColors.green,
     borderRadius: 10,
     padding: 10,
-    // fontFamily: "Gilroy-Medium",
-    fontFamily: "Montserrat-Medium",
   },
   hr: {
     paddingTop: 15,
