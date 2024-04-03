@@ -19,8 +19,8 @@ export default function AddRecipeScreen({ navigation }: { navigation: any }) {
   const [linkWarning, setLinkWarning] = useState("");
 
   useEffect(() => {
-    console.log(title, link, description, favorite, cakes, pies, cupcakes);
-  }, [title, link, description, favorite, cakes, pies, cupcakes]);
+    console.log(title, link, description, favorite, cakes, pies, cupcakes, titleWarning, linkWarning);
+  }, [title, link, description, favorite, cakes, pies, cupcakes, titleWarning, linkWarning]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -54,10 +54,10 @@ export default function AddRecipeScreen({ navigation }: { navigation: any }) {
         cakes={cakes}
         pies={pies}
         cupcakes={cupcakes}
-        titleWarning={titleWarning}
-        linkWarning={linkWarning}
+        setTitle={setTitle}
+        setLink={setLink}
+        setDescription={setDescription}
         setTitleWarning={setTitleWarning}
-        setLinkWarning={setLinkWarning}
       />
     </SafeAreaView>
   );

@@ -38,8 +38,8 @@ export type TypeAddRecipeButton = {
   cakes: boolean;
   pies: boolean;
   cupcakes: boolean;
-  titleWarning: string;
-  linkWarning: string;
-  setTitleWarning: Dispatch<SetStateAction<string>>;
-  setLinkWarning: Dispatch<SetStateAction<string>>;
+  setTitle: Dispatch<SetStateAction<string>>;
+  setLink: Dispatch<SetStateAction<string>>;
+  setDescription: Dispatch<SetStateAction<string>>
+  setTitleWarning: Dispatch<SetStateAction<string>>
 };

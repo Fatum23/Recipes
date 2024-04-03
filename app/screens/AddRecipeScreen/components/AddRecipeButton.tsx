@@ -1,42 +1,61 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Keyboard,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import { gColors } from "../../../global/styles/gColors";
 import { TypeAddRecipeButton } from "../types";
 
-const checkNotEmpty = (props: TypeAddRecipeButton) => {
-  if (props.title === "") {
-    props.setTitleWarning("Заполните это поле");
-  } else {
-    props.setTitleWarning("");
-  }
-};
-
-const checkValidLink = (props: TypeAddRecipeButton) => {
-  if (props.link.indexOf("https://") !== 0) {
-    props.setLinkWarning("Ссылка должна начитьнаться с https://");
-  } else {
-    props.setLinkWarning("");
-  }
-};
+const addRecipe = (props: TypeAddRecipeButton) => {};
 
 export default function BottomButtons(props: TypeAddRecipeButton) {
   const handleButtonClick = () => {
-    checkNotEmpty(props);
-    checkValidLink(props);
-
-    if (props.titleWarning === "" && props.linkWarning === "") {
+    if (props.title !== "") {
+      addRecipe(props);
       props.navigation.goBack();
+    } else {
+      props.setTitleWarning("Заполните это поле");
     }
   };
+
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setKeyboardVisible(true); // or some other action
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setKeyboardVisible(false); // or some other action
+      }
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.button}
-        activeOpacity={0.4}
-        onPress={handleButtonClick}
-      >
-        <Text style={styles.text}>Добавить рецепт</Text>
-      </TouchableOpacity>
+    <View>
+      {!isKeyboardVisible && (
+        <View style={styles.container}>
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.4}
+            onPress={handleButtonClick}
+          >
+            <Text style={styles.text}>Добавить рецепт</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }

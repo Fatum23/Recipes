@@ -7,10 +7,13 @@ export default function InputWarning(props: { warning: string }) {
       display: props.warning === "" ? "none" : "flex",
       marginLeft: 120,
     },
+    text: {
+      color: props.warning.includes("Заполните") ? "red" : "gold",
+    },
   });
   return (
     <View style={styles.container}>
-      <Text>{props.warning}</Text>
+      <Text style={styles.text}>{props.warning}</Text>
     </View>
   );
 }
