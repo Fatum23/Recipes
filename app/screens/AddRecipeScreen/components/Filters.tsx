@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import React from "react";
-import FilterComponent from "../../../global/components/FilterComponent";
+import FilterComponent from "./FilterComponent";
 import { TypeFilters } from "../types";
 
 export default function Filters(props: TypeFilters) {

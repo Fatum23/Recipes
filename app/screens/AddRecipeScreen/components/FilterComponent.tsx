@@ -8,7 +8,7 @@ import {
 import React, { Dispatch, SetStateAction } from "react";
 import { AntDesign } from "@expo/vector-icons";
 
-import { gColors } from "../styles/gColors";
+import { gColors } from "../../../global/styles/gColors";
 
 type TypeFilterComponent = {
   title: string;
@@ -45,7 +45,7 @@ export default function FilterComponent(props: TypeFilterComponent) {
         <View style={styles.button}>
           <Text style={styles.title}>{props.title}</Text>
           {props.active && (
-            <AntDesign name="closecircle" size={20} color="white" />
+            <AntDesign name="checkcircle" size={20} color="white" />
           )}
         </View>
       </TouchableOpacity>
