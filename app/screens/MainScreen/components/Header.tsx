@@ -3,7 +3,7 @@ import React from "react";
 import { Ionicons, SimpleLineIcons } from "@expo/vector-icons";
 import { gColors } from "../../../global/styles/gColors";
 
-export default function Header() {
+export default function Header({navigation}:{navigation: any}) {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.container}>
@@ -11,7 +11,7 @@ export default function Header() {
           style={styles.input}
           placeholder="Введите название рецепта..."
         />
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Filters")}>
           <SimpleLineIcons name="equalizer" size={32} color="black" />
         </TouchableOpacity>
         <TouchableOpacity>

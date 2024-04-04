@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 
-export default function Header({ navigation }: { navigation: any }) {
+export default function Header({ navigation, title }: { navigation: any, title: string }) {
   return (
     <View style={styles.container}>
       <View>
@@ -11,7 +11,7 @@ export default function Header({ navigation }: { navigation: any }) {
         </TouchableOpacity>
       </View>
       <View>
-        <Text style={styles.title}>Добавить рецепт</Text>
+        <Text style={styles.title}>{title}</Text>
       </View>
       <View style={{ height: 20, width: 20 }}>
         <Text style={{ alignSelf: "center" }}></Text>

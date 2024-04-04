@@ -10,12 +10,17 @@ export type TypeInputs = {
 
   titleWarning: string;
   linkWarning: string;
+
+  setTitleWarning: Dispatch<SetStateAction<string>>;
+  setLinkWarning: Dispatch<SetStateAction<string>>;
 };
 
 export type TypeInputComponent = {
   title: string;
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
+  setTitleWarning: Dispatch<SetStateAction<string>>;
+  setLinkWarning: Dispatch<SetStateAction<string>>;
 };
 
 export type TypeFilters = {
