@@ -2,16 +2,20 @@ import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { Ionicons, SimpleLineIcons } from "@expo/vector-icons";
 import { gColors } from "../../../global/styles/gColors";
+import { TypeFilterScreen } from "../../../global/types/gTypes";
 
-export default function Header({navigation}:{navigation: any}) {
+export default function Header(props: TypeFilterScreen & { navigation: any }) {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.container}>
         <TextInput
           style={styles.input}
           placeholder="Введите название рецепта..."
+          onChangeText={(text) => props.setSearchTitleFilter(text)}
         />
-        <TouchableOpacity onPress={() => navigation.navigate("Filters")}>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate("Filters", { searchTitleFilter: props.searchTitleFilter })}
+        >
           <SimpleLineIcons name="equalizer" size={32} color="black" />
         </TouchableOpacity>
         <TouchableOpacity>

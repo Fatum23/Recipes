@@ -5,7 +5,7 @@ import RecipeCard from "./RecipeCard";
 const items: string[] = [...Array(100)].map((_, i) => i.toString());
 
 const renderItem = (item: string) => {
-  return <Text style={{ marginBottom: 150 }}>{item}</Text>;
+  return <Text style={{ marginBottom: 0 }}>{item}</Text>;
 };
 
 export default function RecipeList() {

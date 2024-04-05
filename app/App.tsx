@@ -10,6 +10,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MainScreen from "./screens/MainScreen/MainScreen";
 import AddRecipeScreen from "./screens/AddRecipeScreen/AddRecipeScreen";
 import FiltersScreen from "./screens/FiltersScreen/FiltersScreen"
+import { useState } from "react";
 
 const Stack = createNativeStackNavigator();
 
@@ -56,4 +57,4 @@ function App() {
   );
 }
 
-export default registerRootComponent(App);
+export default registerRootComponent(App)

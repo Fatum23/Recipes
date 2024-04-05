@@ -24,14 +24,14 @@ export default function Filters(props: TypeFilters) {
           handleClick={props.setCakes}
         />
         <FilterComponent
-          title="Пироги"
-          active={props.pies}
-          handleClick={props.setPies}
-        />
-        <FilterComponent
           title="Пирожные"
           active={props.cupcakes}
           handleClick={props.setCupcakes}
+        />
+        <FilterComponent
+          title="Пироги"
+          active={props.pies}
+          handleClick={props.setPies}
         />
       </ScrollView>
     </View>
