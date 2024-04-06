@@ -6,7 +6,7 @@ import RecipeList from "./components/RecipeList";
 
 import { TypeSortFilter } from "../../global/types/gTypes";
 
-export default function MainScreen({ navigation }: { navigation: any }) {
+export default function MainScreen() {
   const [sortFilter, setSortFilter] =
     useState<TypeSortFilter>("От новых к старым");
 
@@ -19,11 +19,10 @@ export default function MainScreen({ navigation }: { navigation: any }) {
   const [cakeFilter, setCakeFilter] = useState<boolean | null>(null);
   const [cupcakeFilter, setCupcakeFilter] = useState<boolean | null>(null);
   const [pieFilter, setPieFilter] = useState<boolean | null>(null);
-  
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Header
-        navigation={navigation}
         sortFilter={sortFilter}
         searchTitleFilter={searchTitleFilter}
         searchLinkFilter={searchTitleFilter}
@@ -32,7 +31,6 @@ export default function MainScreen({ navigation }: { navigation: any }) {
         cakeFilter={cakeFilter}
         cupcakeFilter={cupcakeFilter}
         pieFilter={pieFilter}
-
         setSortFilter={setSortFilter}
         setSearchTitleFilter={setSearchTitleFilter}
         setSearchLinkFilter={setSearchLinkFilter}
@@ -43,7 +41,7 @@ export default function MainScreen({ navigation }: { navigation: any }) {
         setPieFilter={setPieFilter}
       />
       <RecipeList />
-      <AddRecipeButton navigation={navigation} />
+      <AddRecipeButton />
     </SafeAreaView>
   );
 }

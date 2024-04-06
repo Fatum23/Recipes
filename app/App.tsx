@@ -3,16 +3,15 @@ import { StatusBar } from "expo-status-bar";
 import * as NavigationBar from "expo-navigation-bar";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import MainScreen from "./screens/MainScreen/MainScreen";
 import AddRecipeScreen from "./screens/AddRecipeScreen/AddRecipeScreen";
-import FiltersScreen from "./screens/FiltersScreen/FiltersScreen"
-import { useState } from "react";
+import FiltersScreen from "./screens/FiltersScreen/FiltersScreen";
+import { StackParamList } from "./global/types/gTypes";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<StackParamList>();
 
 SplashScreen.preventAutoHideAsync();
 
@@ -57,4 +56,4 @@ function App() {
   );
 }
 
-export default registerRootComponent(App)
+export default registerRootComponent(App);

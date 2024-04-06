@@ -2,9 +2,13 @@ import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { Ionicons, SimpleLineIcons } from "@expo/vector-icons";
 import { gColors } from "../../../global/styles/gColors";
-import { TypeFilterScreen } from "../../../global/types/gTypes";
+import { StackParamList, TypeFilterScreen } from "../../../global/types/gTypes";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
 
-export default function Header(props: TypeFilterScreen & { navigation: any }) {
+export default function Header(props: TypeFilterScreen) {
+  type NavigationProp = StackNavigationProp<StackParamList, "Filters">;
+  const navigation = useNavigation<NavigationProp>();
   return (
     <View style={styles.mainContainer}>
       <View style={styles.container}>
@@ -14,7 +18,7 @@ export default function Header(props: TypeFilterScreen & { navigation: any }) {
           onChangeText={(text) => props.setSearchTitleFilter(text)}
         />
         <TouchableOpacity
-          onPress={() => props.navigation.navigate("Filters", { searchTitleFilter: props.searchTitleFilter })}
+          onPress={() => navigation.navigate("Filters", { ...props })}
         >
           <SimpleLineIcons name="equalizer" size={32} color="black" />
         </TouchableOpacity>

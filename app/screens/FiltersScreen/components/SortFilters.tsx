@@ -1,30 +1,43 @@
-import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { StyleSheet, View, Text } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-export default function SortFilters() {
+import { TypeSortFilter } from "../../../global/types/gTypes";
+export default function SortFilters(props: {
+  sortFilter: TypeSortFilter;
+  setSortFilter: Dispatch<SetStateAction<TypeSortFilter>>;
+}) {
+  const [value, setValue] = useState<TypeSortFilter>(props.sortFilter);
 
+  const styles = StyleSheet.create({
+    container: {
+      marginTop: 25,
+    },
+    title: {
+      marginLeft: 10,
+      fontSize: 22,
+      fontWeight: "bold",
+    },
+    picker: {
+      width: value.includes("-") ? 110 : 230,
+    },
+  });
   return (
-    <View>
+    <View style={styles.container}>
+      <Text style={styles.title}>Сортировать по: </Text>
       <Picker
-        selectedValue={"courses"}
-        style={{ height: 50, width: 250 }}
+        selectedValue={value}
         mode="dropdown"
+        onValueChange={(value) => {
+          setValue(value);
+          props.setSortFilter(value);
+        }}
+        style={styles.picker}
       >
-        <Picker.Item label="Courses" value="courses" />
-        <Picker.Item label="Data-Structures" value="DSA" />
-        <Picker.Item label="ReactJs" value="react" />
-        <Picker.Item label="C++" value="cpp" />
-        <Picker.Item label="Python" value="py" />
-        <Picker.Item label="Java" value="java" />
+        <Picker.Item label="А-Я" value="А-Я" />
+        <Picker.Item label="Я-А" value="Я-А" />
+        <Picker.Item label="От новых к старым" value="От новых к старым" />
+        <Picker.Item label="От старых к новым" value="От старых к новым" />
       </Picker>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

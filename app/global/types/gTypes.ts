@@ -1,5 +1,12 @@
 import { RouteProp } from "@react-navigation/native";
 import { Dispatch, SetStateAction } from "react";
+
+export type StackParamList = {
+  Main: undefined;
+  AddRecipe: undefined;
+  Filters: TypeFilterScreen;
+};
+
 export type TypeFilterScreen = {
   sortFilter: TypeSortFilter;
   searchTitleFilter: string;
@@ -15,7 +22,7 @@ export type TypeFilterScreen = {
   setSearchDescriptionFilter: Dispatch<SetStateAction<string>>;
   setFavoriteFilter: Dispatch<SetStateAction<boolean | null>>;
   setCakeFilter: Dispatch<SetStateAction<boolean | null>>;
-  setCupcakeFilter: Dispatch<SetStateAction<boolean | null>>
+  setCupcakeFilter: Dispatch<SetStateAction<boolean | null>>;
   setPieFilter: Dispatch<SetStateAction<boolean | null>>;
 };
 
@@ -25,4 +32,4 @@ export type TypeSortFilter =
   | "От новых к старым"
   | "От старых к новым";
 
-export type TypeRoute = RouteProp<{ params: TypeFilterScreen }, 'params'>
+export type TypeRoute = RouteProp<{ params: TypeFilterScreen }, "params">;
