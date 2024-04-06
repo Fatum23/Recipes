@@ -5,17 +5,19 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 
 import { gColors } from "../../../global/styles/gColors";
 
 type TypeFilterComponent = {
   title: string;
-  active: boolean;
-  handleClick: Dispatch<SetStateAction<boolean>>;
+  active: boolean | null;
+  handleClick: Dispatch<SetStateAction<boolean | null>>;
 };
 export default function FilterComponent(props: TypeFilterComponent) {
+  const [active, setActive] = useState<boolean | null>(props.active);
+
   const styles = StyleSheet.create({
     container: {
       marginLeft: 15,
@@ -26,13 +28,14 @@ export default function FilterComponent(props: TypeFilterComponent) {
     button: {
       flex: 1,
       padding: 10,
-      backgroundColor: props.active ? gColors.green : "lightgray",
+      backgroundColor:
+        active === null ? "lightgray" : active ? gColors.green : gColors.red,
       flexDirection: "row",
       alignItems: "center",
       gap: 10,
     },
     title: {
-      color: props.active ? "white" : "black",
+      color: active === null ? "black" : "white",
       fontWeight: "500",
     },
   });
@@ -40,12 +43,27 @@ export default function FilterComponent(props: TypeFilterComponent) {
     <View style={styles.container}>
       <TouchableOpacity
         style={{ flex: 1 }}
-        onPress={() => props.handleClick(props.active ? false : true)}
+        onPress={() => {
+          if (active === null) {
+            setActive(true);
+            props.handleClick(true);
+          } else if (active) {
+            setActive(false);
+            props.handleClick(false);
+          } else if (!active) {
+            setActive(null);
+            props.handleClick(null);
+          }
+        }}
       >
         <View style={styles.button}>
           <Text style={styles.title}>{props.title}</Text>
-          {props.active && (
-            <AntDesign name="closecircle" size={20} color="white" />
+          {active !== null && (
+            <AntDesign
+              name={active ? "checkcircle" : "closecircle"}
+              size={20}
+              color="white"
+            />
           )}
         </View>
       </TouchableOpacity>

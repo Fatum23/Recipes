@@ -9,6 +9,7 @@ import ScreenHeader from "../../global/components/ScreenHeader";
 import SortFilters from "./components/SortFilters";
 import SearchInput from "./components/SearchInput";
 import SearchLinkWarning from "./components/SearchLinkWarning";
+import RecipeTypeFilters from "./components/RecipeTypeFilters";
 
 export default function FiltersScreen({
   route,
@@ -38,6 +39,16 @@ export default function FiltersScreen({
         value={route.params.searchDescriptionFilter}
         setValue={route.params.setSearchDescriptionFilter}
         setSearchLinkWarning={undefined}
+      />
+      <RecipeTypeFilters
+        favorite={route.params.favoriteFilter}
+        cakes={route.params.cakeFilter}
+        cupcakes={route.params.cupcakeFilter}
+        pies={route.params.pieFilter}
+        setFavorite={route.params.setFavoriteFilter}
+        setCakes={route.params.setCakeFilter}
+        setCupcakes={route.params.setCupcakeFilter}
+        setPies={route.params.setPieFilter}
       />
     </SafeAreaView>
   );

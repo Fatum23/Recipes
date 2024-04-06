@@ -9,6 +9,43 @@ import { useNavigation } from "@react-navigation/native";
 export default function Header(props: TypeFilterScreen) {
   type NavigationProp = StackNavigationProp<StackParamList, "Filters">;
   const navigation = useNavigation<NavigationProp>();
+
+  const styles = StyleSheet.create({
+    mainContainer: {
+      backgroundColor: "white",
+    },
+    container: {
+      height: 50,
+      width: "100%",
+      paddingTop: 5,
+      paddingLeft: 15,
+      paddingRight: 15,
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 15,
+    },
+    input: {
+      height: "100%",
+      width: "75%",
+      borderWidth: 1,
+      borderColor: gColors.green,
+      borderRadius: 10,
+      padding: 10,
+    },
+    filtersApplied: {
+      width: 10,
+      height: 10,
+      backgroundColor: gColors.red,
+      borderRadius: 5,
+      position: "absolute",
+    },
+    hr: {
+      paddingTop: 15,
+      borderBottomColor: "rgba(52, 52, 52, 0.3)",
+      borderBottomWidth: 1,
+    },
+  });
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.container}>
@@ -20,7 +57,21 @@ export default function Header(props: TypeFilterScreen) {
         <TouchableOpacity
           onPress={() => navigation.navigate("Filters", { ...props })}
         >
-          <SimpleLineIcons name="equalizer" size={32} color="black" />
+          <SimpleLineIcons
+            name="equalizer"
+            size={32}
+            color={
+              props.sortFilter === "От новых к старым" &&
+              props.searchLinkFilter === "" &&
+              props.searchDescriptionFilter === "" &&
+              props.favoriteFilter === null &&
+              props.cakeFilter === null &&
+              props.cupcakeFilter === null &&
+              props.pieFilter === null
+                ? "black"
+                : gColors.green
+            }
+          />
         </TouchableOpacity>
         <TouchableOpacity>
           <Ionicons name="settings-outline" size={32} color="black" />
@@ -30,32 +81,3 @@ export default function Header(props: TypeFilterScreen) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    backgroundColor: "white",
-  },
-  container: {
-    height: 50,
-    width: "100%",
-    paddingTop: 5,
-    paddingLeft: 15,
-    paddingRight: 15,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 15,
-  },
-  input: {
-    height: "100%",
-    width: "75%",
-    borderWidth: 1,
-    borderColor: gColors.green,
-    borderRadius: 10,
-    padding: 10,
-  },
-  hr: {
-    paddingTop: 15,
-    borderBottomColor: "rgba(52, 52, 52, 0.3)",
-    borderBottomWidth: 1,
-  },
-});

@@ -11,10 +11,14 @@ import AddRecipeScreen from "./screens/AddRecipeScreen/AddRecipeScreen";
 import FiltersScreen from "./screens/FiltersScreen/FiltersScreen";
 import { StackParamList } from "./global/types/gTypes";
 
+import { LogBox } from "react-native";
+LogBox.ignoreLogs([
+  "Non-serializable values were found in the navigation state",
+]);
+
 const Stack = createNativeStackNavigator<StackParamList>();
 
 SplashScreen.preventAutoHideAsync();
-
 function App() {
   const [fontsLoaded] = useFonts({
     "Gilroy-Medium": require("./global/assets/fonts/Gilroy-Medium.ttf"),

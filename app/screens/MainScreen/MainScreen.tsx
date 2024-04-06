@@ -20,12 +20,36 @@ export default function MainScreen() {
   const [cupcakeFilter, setCupcakeFilter] = useState<boolean | null>(null);
   const [pieFilter, setPieFilter] = useState<boolean | null>(null);
 
+  useEffect(
+    () =>
+      console.log(
+        sortFilter,
+        searchTitleFilter,
+        searchLinkFilter,
+        searchDescriptionFilter,
+        favoriteFilter,
+        cakeFilter,
+        cupcakeFilter,
+        pieFilter
+      ),
+    [
+      sortFilter,
+      searchTitleFilter,
+      searchLinkFilter,
+      searchDescriptionFilter,
+      favoriteFilter,
+      cakeFilter,
+      cupcakeFilter,
+      pieFilter,
+    ]
+  );
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Header
         sortFilter={sortFilter}
         searchTitleFilter={searchTitleFilter}
-        searchLinkFilter={searchTitleFilter}
+        searchLinkFilter={searchLinkFilter}
         searchDescriptionFilter={searchDescriptionFilter}
         favoriteFilter={favoriteFilter}
         cakeFilter={cakeFilter}
