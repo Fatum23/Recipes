@@ -6,8 +6,6 @@ export default function SortFilters(props: {
   sortFilter: TypeSortFilter;
   setSortFilter: Dispatch<SetStateAction<TypeSortFilter>>;
 }) {
-  const [value, setValue] = useState<TypeSortFilter>(props.sortFilter);
-
   const styles = StyleSheet.create({
     container: {
       marginTop: 25,
@@ -18,17 +16,16 @@ export default function SortFilters(props: {
       fontWeight: "bold",
     },
     picker: {
-      width: value.includes("-") ? 110 : 230,
+      width: props.sortFilter.includes("-") ? 110 : 230,
     },
   });
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Сортировать по: </Text>
       <Picker
-        selectedValue={value}
+        selectedValue={props.sortFilter}
         mode="dropdown"
         onValueChange={(value) => {
-          setValue(value);
           props.setSortFilter(value);
         }}
         style={styles.picker}

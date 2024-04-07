@@ -5,6 +5,7 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useEffect } from "react";
 
 import MainScreen from "./screens/MainScreen/MainScreen";
 import AddRecipeScreen from "./screens/AddRecipeScreen/AddRecipeScreen";
@@ -19,6 +20,7 @@ LogBox.ignoreLogs([
 const Stack = createNativeStackNavigator<StackParamList>();
 
 SplashScreen.preventAutoHideAsync();
+
 function App() {
   const [fontsLoaded] = useFonts({
     "Gilroy-Medium": require("./global/assets/fonts/Gilroy-Medium.ttf"),

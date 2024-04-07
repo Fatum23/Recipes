@@ -5,6 +5,7 @@ import AddRecipeButton from "./components/AddRecipeButton";
 import RecipeList from "./components/RecipeList";
 
 import { TypeSortFilter } from "../../global/types/gTypes";
+import * as db from "../../global/services/db/dbService";
 
 export default function MainScreen() {
   const [sortFilter, setSortFilter] =
@@ -20,29 +21,7 @@ export default function MainScreen() {
   const [cupcakeFilter, setCupcakeFilter] = useState<boolean | null>(null);
   const [pieFilter, setPieFilter] = useState<boolean | null>(null);
 
-  useEffect(
-    () =>
-      console.log(
-        sortFilter,
-        searchTitleFilter,
-        searchLinkFilter,
-        searchDescriptionFilter,
-        favoriteFilter,
-        cakeFilter,
-        cupcakeFilter,
-        pieFilter
-      ),
-    [
-      sortFilter,
-      searchTitleFilter,
-      searchLinkFilter,
-      searchDescriptionFilter,
-      favoriteFilter,
-      cakeFilter,
-      cupcakeFilter,
-      pieFilter,
-    ]
-  );
+  useEffect(() => db.createTable(), []);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableNativeFeedback,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 
@@ -16,8 +10,6 @@ type TypeFilterComponent = {
   handleClick: Dispatch<SetStateAction<boolean | null>>;
 };
 export default function FilterComponent(props: TypeFilterComponent) {
-  const [active, setActive] = useState<boolean | null>(props.active);
-
   const styles = StyleSheet.create({
     container: {
       marginLeft: 15,
@@ -29,13 +21,17 @@ export default function FilterComponent(props: TypeFilterComponent) {
       flex: 1,
       padding: 10,
       backgroundColor:
-        active === null ? "lightgray" : active ? gColors.green : gColors.red,
+        props.active === null
+          ? "lightgray"
+          : props.active
+          ? gColors.green
+          : gColors.red,
       flexDirection: "row",
       alignItems: "center",
       gap: 10,
     },
     title: {
-      color: active === null ? "black" : "white",
+      color: props.active === null ? "black" : "white",
       fontWeight: "500",
     },
   });
@@ -44,23 +40,20 @@ export default function FilterComponent(props: TypeFilterComponent) {
       <TouchableOpacity
         style={{ flex: 1 }}
         onPress={() => {
-          if (active === null) {
-            setActive(true);
+          if (props.active === null) {
             props.handleClick(true);
-          } else if (active) {
-            setActive(false);
+          } else if (props.active) {
             props.handleClick(false);
-          } else if (!active) {
-            setActive(null);
+          } else if (!props.active) {
             props.handleClick(null);
           }
         }}
       >
         <View style={styles.button}>
           <Text style={styles.title}>{props.title}</Text>
-          {active !== null && (
+          {props.active !== null && (
             <AntDesign
-              name={active ? "checkcircle" : "closecircle"}
+              name={props.active ? "checkcircle" : "closecircle"}
               size={20}
               color="white"
             />

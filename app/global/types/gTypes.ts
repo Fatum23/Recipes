@@ -33,3 +33,14 @@ export type TypeSortFilter =
   | "От старых к новым";
 
 export type TypeRoute = RouteProp<{ params: TypeFilterScreen }, "params">;
+
+export type TypeRecipe = {
+  id?: number;
+  title: string;
+  link: string;
+  description: string;
+  favorite: boolean | null;
+  cake: boolean | null;
+  cupcake: boolean | null;
+  pie: boolean | null;
+};

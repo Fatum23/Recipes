@@ -9,7 +9,19 @@ import React, { useEffect, useState } from "react";
 import { gColors } from "../../../global/styles/gColors";
 import { TypeAddRecipeButton } from "../types";
 
-const addRecipe = (props: TypeAddRecipeButton) => {};
+import * as db from "../../../global/services/db/dbService";
+
+const addRecipe = (props: TypeAddRecipeButton) => {
+  db.addRecipe({
+    title: props.title,
+    link: props.link,
+    description: props.description,
+    favorite: props.favorite,
+    cake: props.cakes,
+    cupcake: props.cupcakes,
+    pie: props.pies,
+  });
+};
 
 export default function BottomButtons(props: TypeAddRecipeButton) {
   const handleButtonClick = () => {

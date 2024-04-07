@@ -6,9 +6,7 @@ export default function SearchFilters(props: {
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
   type: "link" | "description";
-  setSearchLinkWarning: Dispatch<SetStateAction<string>> | undefined;
 }) {
-  const [value, setValue] = useState(props.value);
   const styles = StyleSheet.create({
     container: {
       flexDirection: "row",
@@ -33,7 +31,7 @@ export default function SearchFilters(props: {
       textAlignVertical: props.type !== "description" ? "center" : "top",
       color:
         props.type === "link"
-          ? value.indexOf("https://") === 0
+          ? props.value.indexOf("https://") === 0
             ? "dodgerblue"
             : "black"
           : "black",
@@ -48,20 +46,8 @@ export default function SearchFilters(props: {
         style={styles.input}
         selectionColor={gColors.green}
         multiline={props.type === "description" ? true : false}
-        onChangeText={(text) => {
-          props.setValue(text);
-          setValue(text);
-          if (props.type === "link") {
-            if (text !== "" && !text.includes("https://")) {
-              props.setSearchLinkWarning!(
-                "Ссылка должна начинаться с https://"
-              );
-            } else {
-              props.setSearchLinkWarning!("");
-            }
-          }
-        }}
-        defaultValue={value}
+        onChangeText={(text) => props.setValue(text)}
+        defaultValue={props.value}
       />
     </View>
   );

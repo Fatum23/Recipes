@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 
-export default function SearchLinkWarning(props: { warning: string }) {
+export default function SearchLinkWarning(props: { searchLinkFilter: string }) {
   const styles = StyleSheet.create({
     container: {
-      display: props.warning === "" ? "none" : "flex",
+      display: props.searchLinkFilter === "" ? "none" : "flex",
       marginLeft: 120,
     },
     text: {
@@ -13,7 +13,11 @@ export default function SearchLinkWarning(props: { warning: string }) {
   });
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{props.warning}</Text>
+      <Text style={styles.text}>
+        {!props.searchLinkFilter.includes("https://")
+          ? "Ссылка должна начинаться с https://"
+          : ""}
+      </Text>
     </View>
   );
 }
