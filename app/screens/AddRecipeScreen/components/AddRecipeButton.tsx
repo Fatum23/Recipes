@@ -21,6 +21,7 @@ const addRecipe = (props: TypeAddRecipeButton) => {
     cupcake: props.cupcakes,
     pie: props.pies,
   });
+  props.setGetRecipes(false)
 };
 
 export default function BottomButtons(props: TypeAddRecipeButton) {

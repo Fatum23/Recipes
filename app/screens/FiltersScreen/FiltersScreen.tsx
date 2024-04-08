@@ -18,7 +18,7 @@ export default function FiltersScreen({
   route: RouteProp<StackParamList, "Filters">;
 }) {
   type NavigationProps = StackNavigationProp<StackParamList, "Filters">;
-  const navigation = useNavigation<StackParamList>();
+  const navigation = useNavigation<NavigationProps>();
 
   const [sortFilter, setSortFilter] = useState<TypeSortFilter>(
     route.params.sortFilter

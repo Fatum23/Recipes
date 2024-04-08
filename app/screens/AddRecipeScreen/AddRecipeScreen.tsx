@@ -4,8 +4,11 @@ import ScreenHeader from "../../global/components/ScreenHeader";
 import Inputs from "./components/Inputs";
 import Filters from "./components/Filters";
 import AddRecipeButton from "./components/AddRecipeButton";
+import { RouteProp, useNavigation } from "@react-navigation/native";
+import { StackParamList } from "../../global/types/gTypes";
 
-export default function AddRecipeScreen({ navigation }: { navigation: any }) {
+export default function AddRecipeScreen({route}: {route: RouteProp<StackParamList, "AddRecipe">}) {
+  const navigation = useNavigation()
   const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
   const [description, setDescription] = useState("");
@@ -17,30 +20,6 @@ export default function AddRecipeScreen({ navigation }: { navigation: any }) {
 
   const [titleWarning, setTitleWarning] = useState("");
   const [linkWarning, setLinkWarning] = useState("");
-
-  useEffect(() => {
-    console.log(
-      title,
-      link,
-      description,
-      favorite,
-      cakes,
-      pies,
-      cupcakes,
-      titleWarning,
-      linkWarning
-    );
-  }, [
-    title,
-    link,
-    description,
-    favorite,
-    cakes,
-    pies,
-    cupcakes,
-    titleWarning,
-    linkWarning,
-  ]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -80,6 +59,7 @@ export default function AddRecipeScreen({ navigation }: { navigation: any }) {
         setLink={setLink}
         setDescription={setDescription}
         setTitleWarning={setTitleWarning}
+        setGetRecipes={route.params.setGetRecipes}
       />
     </SafeAreaView>
   );

@@ -4,8 +4,9 @@ import Header from "./components/Header";
 import AddRecipeButton from "./components/AddRecipeButton";
 import RecipeList from "./components/RecipeList";
 
-import { TypeSortFilter } from "../../global/types/gTypes";
+import { TypeRecipe, TypeSortFilter } from "../../global/types/gTypes";
 import * as db from "../../global/services/db/dbService";
+import { SQLError } from "expo-sqlite";
 
 export default function MainScreen() {
   const [sortFilter, setSortFilter] =
@@ -21,7 +22,28 @@ export default function MainScreen() {
   const [cupcakeFilter, setCupcakeFilter] = useState<boolean | null>(null);
   const [pieFilter, setPieFilter] = useState<boolean | null>(null);
 
-  useEffect(() => db.createTable(), []);
+  const [recipes, setRecipes] = useState<TypeRecipe[]>([]);
+  const [getRecipes, setGetRecipes] = useState<boolean>(true);
+
+  useEffect(() => {
+    db.createTable()
+    setGetRecipes(false)
+  }, []);
+
+  useEffect(() => {
+    if (getRecipes === false) {
+      db.getRecipes(
+        (recipes: TypeRecipe[]) => {
+          console.log("Fetched recipes:", recipes);
+          setRecipes(recipes);
+        },
+        (error: SQLError) => {
+          console.log("Failed to fetch recipes:", error);
+        }
+      );
+      setGetRecipes(true);
+    }
+  }, [getRecipes])
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -43,8 +65,8 @@ export default function MainScreen() {
         setCupcakeFilter={setCupcakeFilter}
         setPieFilter={setPieFilter}
       />
-      <RecipeList />
-      <AddRecipeButton />
+      <RecipeList getRecipes={getRecipes} recipes={recipes} />
+      <AddRecipeButton setGetRecipe={setGetRecipes} />
     </SafeAreaView>
   );
 }
