@@ -20,8 +20,10 @@ const addRecipe = (props: TypeAddRecipeButton) => {
     cake: props.cakes,
     cupcake: props.cupcakes,
     pie: props.pies,
+    addDate: new Date().toLocaleString().replace(", ", " "),
+    editDate: "",
   });
-  props.setGetRecipes(false)
+  props.setGetRecipes(false);
 };
 
 export default function BottomButtons(props: TypeAddRecipeButton) {

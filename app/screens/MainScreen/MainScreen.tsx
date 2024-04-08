@@ -23,27 +23,30 @@ export default function MainScreen() {
   const [pieFilter, setPieFilter] = useState<boolean | null>(null);
 
   const [recipes, setRecipes] = useState<TypeRecipe[]>([]);
-  const [getRecipes, setGetRecipes] = useState<boolean>(true);
+  const [recipesFetched, setRecipesFetched] = useState<boolean>(true);
+
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    db.createTable()
-    setGetRecipes(false)
+    db.createTable();
+    setRecipesFetched(false);
   }, []);
 
   useEffect(() => {
-    if (getRecipes === false) {
+    if (recipesFetched === false) {
+      setLoading(true);
       db.getRecipes(
         (recipes: TypeRecipe[]) => {
-          console.log("Fetched recipes:", recipes);
           setRecipes(recipes);
+          setLoading(false);
+          setRecipesFetched(true);
         },
         (error: SQLError) => {
           console.log("Failed to fetch recipes:", error);
         }
       );
-      setGetRecipes(true);
     }
-  }, [getRecipes])
+  }, [recipesFetched]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -65,8 +68,12 @@ export default function MainScreen() {
         setCupcakeFilter={setCupcakeFilter}
         setPieFilter={setPieFilter}
       />
-      <RecipeList getRecipes={getRecipes} recipes={recipes} />
-      <AddRecipeButton setGetRecipe={setGetRecipes} />
+      <RecipeList
+        loading={loading}
+        recipes={recipes}
+        setRecipesFetched={setRecipesFetched}
+      />
+      <AddRecipeButton setGetRecipe={setRecipesFetched} />
     </SafeAreaView>
   );
 }

@@ -5,50 +5,46 @@ import {
   View,
   ActivityIndicator,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-import RecipeCard from "./RecipeCard";
+import React, { Dispatch, SetStateAction } from "react";
+import RecipeCard from "./RecipeCard/RecipeCard";
 import { gColors } from "../../../global/styles/gColors";
 
 import { TypeRecipe } from "../../../global/types/gTypes";
-import * as db from "../../../global/services/db/dbService";
-import { SQLError } from "expo-sqlite";
-
-const renderItem = (item: TypeRecipe) => {
-  return <Text style={{ marginBottom: 0 }}>{item.title}</Text>;
-};
 
 export default function RecipeList(props: {
-  getRecipes: boolean;
+  loading: boolean;
   recipes: TypeRecipe[];
+  setRecipesFetched: Dispatch<SetStateAction<boolean>>;
 }) {
   return (
     <View style={styles.container}>
-      {props.getRecipes ? (
-        <FlatList
-          style={styles.flatlist}
-          contentContainerStyle={styles.content}
-          removeClippedSubviews={false}
-          data={props.recipes}
-          windowSize={2}
-          initialNumToRender={8}
-          maxToRenderPerBatch={8}
-          renderItem={({ item }) => (
-            <View
-              style={{
-                backgroundColor: "whitesmoke",
-                width: 100,
-                height: 100,
-                margin: 10,
-              }}
-            >
-              <Text>{item.title}</Text>
-            </View>
-          )}
-          keyExtractor={(item) => item.title}
-        />
-      ) : (
-        <ActivityIndicator color={gColors.green} size={"large"} />
-      )}
+      <FlatList
+        style={styles.flatlist}
+        contentContainerStyle={styles.content}
+        removeClippedSubviews={false}
+        data={props.recipes}
+        windowSize={2}
+        initialNumToRender={50}
+        maxToRenderPerBatch={50}
+        renderItem={({ item, index }) => (
+          <RecipeCard
+            id={item.id}
+            title={item.title}
+            link={item.link}
+            description={item.description}
+            favorite={item.favorite}
+            cake={item.cake}
+            cupcake={item.cupcake}
+            pie={item.pie}
+            addDate={item.addDate}
+            editDate={item.editDate}
+            marginBottom={index + 1 === props.recipes.length}
+            setRecipesFetched={props.setRecipesFetched}
+          />
+        )}
+        automaticallyAdjustsScrollIndicatorInsets={false}
+        keyExtractor={(item) => item.id!.toString()}
+      />
     </View>
   );
 }
@@ -56,6 +52,9 @@ export default function RecipeList(props: {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
   },
   flatlist: {
     width: "100%",
@@ -64,5 +63,9 @@ const styles = StyleSheet.create({
   content: {
     alignItems: "center",
     justifyContent: "center",
+  },
+  noRecipes: {
+    fontSize: 22,
+    fontWeight: "bold",
   },
 });

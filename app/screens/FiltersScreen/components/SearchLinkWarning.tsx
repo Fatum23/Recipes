@@ -14,7 +14,7 @@ export default function SearchLinkWarning(props: { searchLinkFilter: string }) {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>
-        {!props.searchLinkFilter.includes("https://")
+        {props.searchLinkFilter.indexOf("https://") !== 0
           ? "Ссылка должна начинаться с https://"
           : ""}
       </Text>

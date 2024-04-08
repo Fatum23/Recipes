@@ -1,5 +1,6 @@
 import * as sqlite from "expo-sqlite";
 import { TypeRecipe } from "../../types/gTypes";
+import { Dispatch, SetStateAction } from "react";
 
 const db = sqlite.openDatabase("recipes.db");
 
@@ -13,7 +14,9 @@ export const createTable = () => {
       favorite INTEGER NULL,
       cake INTEGER NULL,
       cupcake INTEGER NULL,
-      pie INTEGER NULL
+      pie INTEGER NULL,
+      addDate TEXT,
+      editDate TEXT
     )`);
   });
 };
@@ -21,15 +24,17 @@ export const createTable = () => {
 export const addRecipe = (recipe: TypeRecipe) => {
   db.transaction((tx) => {
     tx.executeSql(
-      "INSERT INTO recipes (title, link, description, favorite, cake, cupcake, pie) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO recipes (title, link, description, favorite, cake, cupcake, pie, addDate, editDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [
         recipe.title,
         recipe.link,
         recipe.description,
-        recipe.favorite !== null ? Number(recipe.favorite) : null,
-        recipe.cake !== null ? Number(recipe.cake) : null,
-        recipe.cupcake !== null ? Number(recipe.cupcake) : null,
-        recipe.pie !== null ? Number(recipe.pie) : null,
+        Number(recipe.favorite),
+        Number(recipe.cake),
+        Number(recipe.cupcake),
+        Number(recipe.pie),
+        recipe.addDate,
+        recipe.editDate,
       ],
       (_, { rowsAffected }) => {
         if (rowsAffected > 0) {
@@ -60,6 +65,31 @@ export const getRecipes = (
       },
       (_, error) => {
         errorCallback(error);
+        return false;
+      }
+    );
+  });
+};
+
+export const likeRecipe = (
+  id: number,
+  like: boolean,
+  setRecipesFetched: Dispatch<SetStateAction<boolean>>
+) => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      "UPDATE recipes SET favorite = ? WHERE id = ?",
+      [Number(like), id],
+      (txObj, resultSet) => {
+        if (resultSet.rowsAffected > 0) {
+          console.log("Row updated successfully");
+          setRecipesFetched(false);
+        } else {
+          console.log("No rows updated");
+        }
+      },
+      (err) => {
+        console.log("Error updating row:", err);
         return false;
       }
     );

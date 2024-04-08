@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from "react";
 
 export type StackParamList = {
   Main: undefined;
-  AddRecipe: {setGetRecipes: Dispatch<SetStateAction<boolean>>};
+  AddRecipe: { setGetRecipes: Dispatch<SetStateAction<boolean>> };
   Filters: TypeFilterScreen;
 };
 
@@ -39,8 +39,10 @@ export type TypeRecipe = {
   title: string;
   link: string;
   description: string;
-  favorite: boolean | null;
-  cake: boolean | null;
-  cupcake: boolean | null;
-  pie: boolean | null;
+  favorite: boolean;
+  cake: boolean;
+  cupcake: boolean;
+  pie: boolean;
+  addDate: string;
+  editDate: string;
 };
