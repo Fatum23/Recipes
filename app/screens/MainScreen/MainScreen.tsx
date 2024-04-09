@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Header from "./components/Header";
 import AddRecipeButton from "./components/AddRecipeButton";
 import RecipeList from "./components/RecipeList";
@@ -32,12 +32,17 @@ export default function MainScreen() {
     setRecipesFetched(false);
   }, []);
 
+  useEffect(() => setRecipesFetched(false), [searchTitleFilter]);
+
   useEffect(() => {
     if (recipesFetched === false) {
       setLoading(true);
       db.getRecipes(
+        searchTitleFilter,
         (recipes: TypeRecipe[]) => {
-          setRecipes(recipes);
+          setRecipes(
+            recipes.filter((recipe) => recipe.title === (searchTitleFilter === "" ? recipe.title : searchTitleFilter))
+          );
           setLoading(false);
           setRecipesFetched(true);
         },
@@ -47,6 +52,8 @@ export default function MainScreen() {
       );
     }
   }, [recipesFetched]);
+
+  const memoizedRecipes = useMemo(() => recipes, [recipes]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -70,7 +77,7 @@ export default function MainScreen() {
       />
       <RecipeList
         loading={loading}
-        recipes={recipes}
+        recipes={memoizedRecipes}
         setRecipesFetched={setRecipesFetched}
       />
       <AddRecipeButton setGetRecipe={setRecipesFetched} />

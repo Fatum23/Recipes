@@ -52,13 +52,14 @@ export const addRecipe = (recipe: TypeRecipe) => {
 };
 
 export const getRecipes = (
+  search: string,
   successCallback: (recipes: TypeRecipe[]) => void,
   errorCallback: (error: sqlite.SQLError) => void
 ) => {
   db.transaction((tx) => {
     tx.executeSql(
       "SELECT * FROM recipes",
-      [],
+        [],
       (_, { rows }) => {
         const recipes: TypeRecipe[] = rows._array;
         successCallback(recipes);
@@ -71,27 +72,27 @@ export const getRecipes = (
   });
 };
 
-export const likeRecipe = (
+export const likeRecipe = async (
   id: number,
   like: boolean,
   setRecipesFetched: Dispatch<SetStateAction<boolean>>
 ) => {
-  db.transaction((tx) => {
-    tx.executeSql(
-      "UPDATE recipes SET favorite = ? WHERE id = ?",
-      [Number(like), id],
-      (txObj, resultSet) => {
-        if (resultSet.rowsAffected > 0) {
-          console.log("Row updated successfully");
-          setRecipesFetched(false);
-        } else {
-          console.log("No rows updated");
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        'UPDATE recipes SET favorite = ? WHERE id = ?',
+        [Number(like), id],
+        (txObj, resultSet) => {
+          if (resultSet.rowsAffected > 0) {
+            resolve('Row updated successfully');
+          } else {
+            resolve('No rows updated');
+          }
+        },
+        (err) => {
+          reject(new Error('Error updating row: ' + err.message));
         }
-      },
-      (err) => {
-        console.log("Error updating row:", err);
-        return false;
-      }
-    );
+      );
+    });
   });
 };

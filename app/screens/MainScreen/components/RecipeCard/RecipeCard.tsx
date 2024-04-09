@@ -120,8 +120,10 @@ export default function RecipeCard(
         </View>
         <View style={styles.bottomRightContainer}>
           <TouchableOpacity
-            onPress={() =>
-              db.likeRecipe(props.id!, !props.favorite, props.setRecipesFetched)
+            onPress={async () =>
+              await db
+                .likeRecipe(props.id!, !props.favorite, props.setRecipesFetched)
+                .then(() => props.setRecipesFetched(false))
             }
           >
             <AntDesign
