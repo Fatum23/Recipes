@@ -143,7 +143,7 @@ export const editRecipe = (
   console.log(recipe);
   db.transaction((tx) => {
     tx.executeSql(
-      "UPDATE recipes SET title = ?, link = ?, description = ?, favorite = ?, cupcake = ?, pie = ?, addDate = ?, editDate = ? WHERE id = ?",
+      "UPDATE recipes SET title = ?, link = ?, description = ?, favorite = ?, cake = ?, cupcake = ?, pie = ?, addDate = ?, editDate = ?  WHERE id = ?",
       [
         recipe.title,
         recipe.link,

@@ -81,7 +81,7 @@ export default function RecipeCard(
       <View style={styles.linkContainer}>
         <Text style={{ alignSelf: "center" }}>Ссылка:</Text>
         <View style={{ flexShrink: 1, marginLeft: 5 }}>
-          {props.link.indexOf("https://") === 0 && (
+          {props.link.indexOf("https://") === 0 ? (
             <TouchableOpacity onPress={() => Linking.openURL(props.link)}>
               <HighlightText
                 text={props.link}
@@ -91,6 +91,8 @@ export default function RecipeCard(
                 }
               />
             </TouchableOpacity>
+          ) : (
+            <Text>{props.link}</Text>
           )}
         </View>
       </View>

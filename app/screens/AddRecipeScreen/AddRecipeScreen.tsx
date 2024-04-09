@@ -58,6 +58,7 @@ export default function AddRecipeScreen({
         id={
           route.params.action === "Редактировать" ? route.params.id! : undefined
         }
+        addDate={route.params.addDate}
         navigation={navigation}
         title={title}
         link={link}

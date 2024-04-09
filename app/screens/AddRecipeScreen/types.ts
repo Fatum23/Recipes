@@ -37,6 +37,7 @@ export type TypeFilters = {
 export type TypeAddRecipeButton = {
   navigation: any;
   id?: number;
+  addDate: string;
   title: string;
   link: string;
   description: string;

@@ -38,15 +38,18 @@ const editRecipe = (props: TypeAddRecipeButton) => {
       cake: props.cakes,
       cupcake: props.cupcakes,
       pie: props.pies,
-      addDate: new Date().toLocaleString().replace(", ", " "),
-      editDate: "",
+      addDate: props.addDate,
+      editDate: new Date().toLocaleString().replace(", ", " "),
     },
     props.setRecipesFetched
   );
 };
 
 export default function BottomButtons(
-  props: { action: "Добавить" | "Редактировать" } & TypeAddRecipeButton
+  props: {
+    action: "Добавить" | "Редактировать";
+    addDate: string;
+  } & TypeAddRecipeButton
 ) {
   const handleButtonClick = () => {
     if (props.title !== "") {
