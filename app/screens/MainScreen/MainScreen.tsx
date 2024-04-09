@@ -32,19 +32,25 @@ export default function MainScreen() {
     setRecipesFetched(false);
   }, []);
 
-  useEffect(() => setRecipesFetched(false), [searchTitleFilter]);
+  useEffect(
+    () => setRecipesFetched(false),
+    [sortFilter, searchTitleFilter, searchLinkFilter, searchDescriptionFilter]
+  );
 
   useEffect(() => {
     if (recipesFetched === false) {
       setLoading(true);
+      console.log("fetching...");
       db.getRecipes(
+        sortFilter,
         searchTitleFilter,
+        searchLinkFilter,
+        searchDescriptionFilter,
         (recipes: TypeRecipe[]) => {
-          setRecipes(
-            recipes.filter((recipe) => recipe.title === (searchTitleFilter === "" ? recipe.title : searchTitleFilter))
-          );
-          setLoading(false);
+          setRecipes(recipes);
+          console.log("fetched");
           setRecipesFetched(true);
+          setLoading(false);
         },
         (error: SQLError) => {
           console.log("Failed to fetch recipes:", error);
@@ -79,6 +85,14 @@ export default function MainScreen() {
         loading={loading}
         recipes={memoizedRecipes}
         setRecipesFetched={setRecipesFetched}
+        sortFilter={sortFilter}
+        searchTitleFilter={searchTitleFilter}
+        searchLinkFilter={searchLinkFilter}
+        searchDescriptionFilter={searchDescriptionFilter}
+        favoriteFilter={favoriteFilter}
+        cakeFilter={cakeFilter}
+        cupcakeFilter={cupcakeFilter}
+        pieFilter={pieFilter}
       />
       <AddRecipeButton setGetRecipe={setRecipesFetched} />
     </SafeAreaView>

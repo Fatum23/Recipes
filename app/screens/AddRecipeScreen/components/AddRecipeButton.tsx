@@ -10,6 +10,7 @@ import { gColors } from "../../../global/styles/gColors";
 import { TypeAddRecipeButton } from "../types";
 
 import * as db from "../../../global/services/db/dbService";
+import { TypeRecipe } from "../../../global/types/gTypes";
 
 const addRecipe = (props: TypeAddRecipeButton) => {
   db.addRecipe({
@@ -23,13 +24,33 @@ const addRecipe = (props: TypeAddRecipeButton) => {
     addDate: new Date().toLocaleString().replace(", ", " "),
     editDate: "",
   });
-  props.setGetRecipes(false);
+  props.setRecipesFetched(false);
 };
 
-export default function BottomButtons(props: TypeAddRecipeButton) {
+const editRecipe = (props: TypeAddRecipeButton) => {
+  db.editRecipe(
+    {
+      id: props.id!,
+      title: props.title,
+      link: props.link,
+      description: props.description,
+      favorite: props.favorite,
+      cake: props.cakes,
+      cupcake: props.cupcakes,
+      pie: props.pies,
+      addDate: new Date().toLocaleString().replace(", ", " "),
+      editDate: "",
+    },
+    props.setRecipesFetched
+  );
+};
+
+export default function BottomButtons(
+  props: { action: "Добавить" | "Редактировать" } & TypeAddRecipeButton
+) {
   const handleButtonClick = () => {
     if (props.title !== "") {
-      addRecipe(props);
+      props.action === "Добавить" ? addRecipe(props) : editRecipe(props);
       props.navigation.goBack();
     } else {
       props.setTitleWarning("Заполните это поле");
@@ -67,7 +88,7 @@ export default function BottomButtons(props: TypeAddRecipeButton) {
             activeOpacity={0.4}
             onPress={handleButtonClick}
           >
-            <Text style={styles.text}>Добавить рецепт</Text>
+            <Text style={styles.text}>{props.action} рецепт</Text>
           </TouchableOpacity>
         </View>
       )}

@@ -10,7 +10,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import RecipeCard from "./RecipeCard/RecipeCard";
 import { gColors } from "../../../global/styles/gColors";
 
-import { TypeRecipe } from "../../../global/types/gTypes";
+import { TypeRecipe, TypeSortFilter } from "../../../global/types/gTypes";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -22,13 +22,22 @@ export default function RecipeList(props: {
   loading: boolean;
   recipes: TypeRecipe[];
   setRecipesFetched: Dispatch<SetStateAction<boolean>>;
+
+  sortFilter: TypeSortFilter;
+  searchTitleFilter: string;
+  searchLinkFilter: string;
+  searchDescriptionFilter: string;
+  favoriteFilter: boolean | null;
+  cakeFilter: boolean | null;
+  pieFilter: boolean | null;
+  cupcakeFilter: boolean | null;
 }) {
   const recipesOpacity = useSharedValue(0);
   const recipesOpacityStyle = useAnimatedStyle(() => {
     return {
       opacity: withTiming(props.loading ? 0 : 1, {
         duration: 150,
-        easing: Easing.ease,
+        easing: Easing.linear,
       }),
     };
   });
@@ -38,13 +47,68 @@ export default function RecipeList(props: {
     return {
       opacity: withTiming(props.loading ? 1 : 0, {
         duration: 150,
-        easing: Easing.ease,
+        easing: Easing.linear,
       }),
     };
   });
 
+  const noRecipesOpacity = useSharedValue(1);
+  const noRecipesOpacityStyle = useAnimatedStyle(() => {
+    return {
+      opacity: withTiming(
+        !props.loading &&
+          props.recipes.length === 0 &&
+          props.sortFilter === "От новых к старым" &&
+          props.searchTitleFilter === "" &&
+          props.searchLinkFilter === "" &&
+          props.searchDescriptionFilter === "" &&
+          props.favoriteFilter === null &&
+          props.cakeFilter === null &&
+          props.cupcakeFilter === null &&
+          props.pieFilter === null
+          ? 1
+          : 0,
+        {
+          duration: 150,
+          easing: Easing.linear,
+        }
+      ),
+    };
+  });
+
+  const noRecipesFoundOpacity = useSharedValue(0);
+  const noRecipesFoundOpacityStyle = useAnimatedStyle(() => {
+    return {
+      opacity: withTiming(
+        !props.loading &&
+          props.recipes.length === 0 &&
+          (props.sortFilter !== "От новых к старым" ||
+            props.searchTitleFilter !== "" ||
+            props.searchLinkFilter !== "" ||
+            props.searchDescriptionFilter !== "" ||
+            props.favoriteFilter !== null ||
+            props.cakeFilter !== null ||
+            props.cupcakeFilter !== null ||
+            props.pieFilter !== null)
+          ? 1
+          : 0,
+        {
+          duration: 150,
+          easing: Easing.linear,
+        }
+      ),
+    };
+  });
+
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View
+      style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "white",
+      }}
+    >
       <Animated.FlatList
         style={[styles.flatlist, recipesOpacityStyle]}
         contentContainerStyle={styles.content}
@@ -74,6 +138,14 @@ export default function RecipeList(props: {
       />
       <Animated.View style={[loadingOpacityStyle, { position: "absolute" }]}>
         <ActivityIndicator size={50} color={gColors.green} />
+      </Animated.View>
+      <Animated.View style={[noRecipesOpacityStyle, { position: "absolute" }]}>
+        <Text style={styles.noRecipes}>Пока что нет рецептов...</Text>
+      </Animated.View>
+      <Animated.View
+        style={[noRecipesFoundOpacityStyle, { position: "absolute" }]}
+      >
+        <Text style={styles.noRecipes}>Такие рецепты не найдены...</Text>
       </Animated.View>
     </View>
   );

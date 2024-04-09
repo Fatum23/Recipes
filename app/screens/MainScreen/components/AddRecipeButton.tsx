@@ -6,13 +6,29 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackParamList } from "../../../global/types/gTypes";
 
-export default function AddRecipeButton(props: {setGetRecipe: Dispatch<SetStateAction<boolean>>}) {
+export default function AddRecipeButton(props: {
+  setGetRecipe: Dispatch<SetStateAction<boolean>>;
+}) {
   type NavigationProps = StackNavigationProp<StackParamList, "AddRecipe">;
   const navigation = useNavigation<NavigationProps>();
   return (
     <TouchableOpacity
       style={styles.button}
-      onPress={() => navigation.navigate("AddRecipe", {setGetRecipes: props.setGetRecipe})}
+      onPress={() =>
+        navigation.navigate("AddRecipe", {
+          action: "Добавить",
+          title: "",
+          link: "",
+          description: "",
+          favorite: false,
+          cake: false,
+          cupcake: false,
+          pie: false,
+          addDate: "",
+          editDate: "",
+          setRecipesFetched: props.setGetRecipe,
+        })
+      }
     >
       <Ionicons name="add" size={36} color="white" />
     </TouchableOpacity>

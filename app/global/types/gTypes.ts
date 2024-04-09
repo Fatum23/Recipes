@@ -3,7 +3,10 @@ import { Dispatch, SetStateAction } from "react";
 
 export type StackParamList = {
   Main: undefined;
-  AddRecipe: { setGetRecipes: Dispatch<SetStateAction<boolean>> };
+  AddRecipe: {
+    action: "Добавить" | "Редактировать";
+    setRecipesFetched: Dispatch<SetStateAction<boolean>>;
+  } & TypeRecipe;
   Filters: TypeFilterScreen;
 };
 

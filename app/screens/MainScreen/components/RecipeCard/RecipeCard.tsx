@@ -10,12 +10,13 @@ import React, { Dispatch, SetStateAction } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import { TypeRecipe } from "../../../../global/types/gTypes";
+import { StackParamList, TypeRecipe } from "../../../../global/types/gTypes";
 import HighlightText from "./HighlightText";
 import RecipeTypeFilter from "./RecipeTypeFilter";
 import { gColors } from "../../../../global/styles/gColors";
 
 import * as db from "../../../../global/services/db/dbService";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 export default function RecipeCard(
   props: TypeRecipe & {
@@ -23,6 +24,8 @@ export default function RecipeCard(
     marginBottom: boolean;
   }
 ) {
+  const navigation =
+    useNavigation<NavigationProp<StackParamList, "AddRecipe">>();
   const styles = StyleSheet.create({
     container: {
       width: Dimensions.get("screen").width * 0.875,
@@ -120,10 +123,8 @@ export default function RecipeCard(
         </View>
         <View style={styles.bottomRightContainer}>
           <TouchableOpacity
-            onPress={async () =>
-              await db
-                .likeRecipe(props.id!, !props.favorite, props.setRecipesFetched)
-                .then(() => props.setRecipesFetched(false))
+            onPress={() =>
+              db.likeRecipe(props.id!, !props.favorite, props.setRecipesFetched)
             }
           >
             <AntDesign
@@ -132,10 +133,29 @@ export default function RecipeCard(
               color={gColors.red}
             />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("AddRecipe", {
+                action: "Редактировать",
+                id: props.id,
+                title: props.title,
+                link: props.link,
+                description: props.description,
+                favorite: !!props.favorite,
+                cake: !!props.cake,
+                cupcake: !!props.cupcake,
+                pie: !!props.pie,
+                addDate: props.addDate,
+                editDate: props.editDate,
+                setRecipesFetched: props.setRecipesFetched,
+              });
+            }}
+          >
             <MaterialIcons name="edit" size={30} color="grey" />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => db.deleteRecipe(props.id!, props.setRecipesFetched)}
+          >
             <MaterialIcons name="delete" size={30} color="grey" />
           </TouchableOpacity>
         </View>

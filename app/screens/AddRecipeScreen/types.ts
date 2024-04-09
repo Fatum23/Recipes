@@ -36,6 +36,7 @@ export type TypeFilters = {
 
 export type TypeAddRecipeButton = {
   navigation: any;
+  id?: number;
   title: string;
   link: string;
   description: string;
@@ -45,7 +46,7 @@ export type TypeAddRecipeButton = {
   cupcakes: boolean;
   setTitle: Dispatch<SetStateAction<string>>;
   setLink: Dispatch<SetStateAction<string>>;
-  setDescription: Dispatch<SetStateAction<string>>
-  setTitleWarning: Dispatch<SetStateAction<string>>
-  setGetRecipes: Dispatch<SetStateAction<boolean>>
+  setDescription: Dispatch<SetStateAction<string>>;
+  setTitleWarning: Dispatch<SetStateAction<string>>;
+  setRecipesFetched: Dispatch<SetStateAction<boolean>>;
 };

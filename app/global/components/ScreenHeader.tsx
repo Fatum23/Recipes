@@ -2,7 +2,13 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 
-export default function Header({ navigation, title }: { navigation: any, title: string }) {
+export default function Header({
+  navigation,
+  title,
+}: {
+  navigation: any;
+  title: string;
+}) {
   return (
     <View style={styles.container}>
       <View>
@@ -22,9 +28,9 @@ export default function Header({ navigation, title }: { navigation: any, title: 
 
 const styles = StyleSheet.create({
   container: {
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 5,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",

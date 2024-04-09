@@ -7,23 +7,30 @@ import AddRecipeButton from "./components/AddRecipeButton";
 import { RouteProp, useNavigation } from "@react-navigation/native";
 import { StackParamList } from "../../global/types/gTypes";
 
-export default function AddRecipeScreen({route}: {route: RouteProp<StackParamList, "AddRecipe">}) {
-  const navigation = useNavigation()
-  const [title, setTitle] = useState("");
-  const [link, setLink] = useState("");
-  const [description, setDescription] = useState("");
+export default function AddRecipeScreen({
+  route,
+}: {
+  route: RouteProp<StackParamList, "AddRecipe">;
+}) {
+  const navigation = useNavigation();
+  const [title, setTitle] = useState(route.params.title);
+  const [link, setLink] = useState(route.params.link);
+  const [description, setDescription] = useState(route.params.description);
 
-  const [favorite, setFavorite] = useState(false);
-  const [cakes, setCakes] = useState(false);
-  const [pies, setPies] = useState(false);
-  const [cupcakes, setCupcakes] = useState(false);
+  const [favorite, setFavorite] = useState(route.params.favorite);
+  const [cakes, setCakes] = useState(route.params.cake);
+  const [cupcakes, setCupcakes] = useState(route.params.cupcake);
+  const [pies, setPies] = useState(route.params.pie);
 
   const [titleWarning, setTitleWarning] = useState("");
   const [linkWarning, setLinkWarning] = useState("");
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      <ScreenHeader navigation={navigation} title="Добавить рецепт" />
+      <ScreenHeader
+        navigation={navigation}
+        title={route.params.action + " рецепт"}
+      />
       <Inputs
         title={title}
         link={link}
@@ -47,6 +54,10 @@ export default function AddRecipeScreen({route}: {route: RouteProp<StackParamLis
         setCupcakes={setCupcakes}
       />
       <AddRecipeButton
+        action={route.params.action}
+        id={
+          route.params.action === "Редактировать" ? route.params.id! : undefined
+        }
         navigation={navigation}
         title={title}
         link={link}
@@ -59,7 +70,7 @@ export default function AddRecipeScreen({route}: {route: RouteProp<StackParamLis
         setLink={setLink}
         setDescription={setDescription}
         setTitleWarning={setTitleWarning}
-        setGetRecipes={route.params.setGetRecipes}
+        setRecipesFetched={route.params.setRecipesFetched}
       />
     </SafeAreaView>
   );
