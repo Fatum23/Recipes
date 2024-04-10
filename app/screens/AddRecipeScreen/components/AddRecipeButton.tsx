@@ -52,7 +52,7 @@ export default function BottomButtons(
   } & TypeAddRecipeButton
 ) {
   const handleButtonClick = () => {
-    if (props.title !== "") {
+    if (props.title.replace(/\s/g, "") !== "") {
       props.action === "Добавить" ? addRecipe(props) : editRecipe(props);
       props.navigation.goBack();
     } else {

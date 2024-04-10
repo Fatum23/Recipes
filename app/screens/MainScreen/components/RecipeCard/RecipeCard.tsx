@@ -21,7 +21,11 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 export default function RecipeCard(
   props: TypeRecipe & {
     setRecipesFetched: Dispatch<SetStateAction<boolean>>;
+    loading: boolean;
     marginBottom: boolean;
+    searchTitleFilter: string;
+    searchLinkFilter: string;
+    searchDescriptionFilter: string;
   }
 ) {
   const navigation =
@@ -74,7 +78,11 @@ export default function RecipeCard(
       style={[styles.container, props.marginBottom && { marginBottom: 110 }]}
     >
       <View style={styles.title}>
-        <HighlightText text={props.title} highlight="" color="black" />
+        <HighlightText
+          text={props.title}
+          highlight={props.searchTitleFilter}
+          color="black"
+        />
       </View>
       <View style={styles.hr} />
 
@@ -85,7 +93,7 @@ export default function RecipeCard(
             <TouchableOpacity onPress={() => Linking.openURL(props.link)}>
               <HighlightText
                 text={props.link}
-                highlight=""
+                highlight={props.searchLinkFilter}
                 color={
                   props.link.indexOf("https://") === 0 ? "dodgerblue" : "black"
                 }

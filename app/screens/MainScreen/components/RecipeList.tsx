@@ -130,7 +130,11 @@ export default function RecipeList(props: {
             addDate={item.addDate}
             editDate={item.editDate}
             marginBottom={index + 1 === props.recipes.length}
+            loading={props.loading}
             setRecipesFetched={props.setRecipesFetched}
+            searchTitleFilter={props.searchTitleFilter}
+            searchLinkFilter={props.searchLinkFilter}
+            searchDescriptionFilter={props.searchDescriptionFilter}
           />
         )}
         automaticallyAdjustsScrollIndicatorInsets={false}
