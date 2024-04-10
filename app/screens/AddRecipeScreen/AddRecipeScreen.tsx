@@ -6,6 +6,7 @@ import Filters from "./components/Filters";
 import AddRecipeButton from "./components/AddRecipeButton";
 import { RouteProp, useNavigation } from "@react-navigation/native";
 import { StackParamList } from "../../global/types/gTypes";
+import FiltersContainer from "../../global/components/Filters/FiltersContainer";
 
 export default function AddRecipeScreen({
   route,
@@ -43,7 +44,7 @@ export default function AddRecipeScreen({
         setTitleWarning={setTitleWarning}
         setLinkWarning={setLinkWarning}
       />
-      <Filters
+      {/* <Filters
         favorite={favorite}
         cakes={cakes}
         pies={pies}
@@ -52,7 +53,8 @@ export default function AddRecipeScreen({
         setCakes={setCakes}
         setPies={setPies}
         setCupcakes={setCupcakes}
-      />
+      /> */}
+      <FiltersContainer />
       <AddRecipeButton
         action={route.params.action}
         id={

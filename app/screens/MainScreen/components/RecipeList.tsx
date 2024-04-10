@@ -113,6 +113,8 @@ export default function RecipeList(props: {
         style={[styles.flatlist, recipesOpacityStyle]}
         contentContainerStyle={styles.content}
         removeClippedSubviews={false}
+        showsVerticalScrollIndicator={true} // Enable the scrollbar on Android
+        scrollIndicatorInsets={{ right: 10 }}
         data={props.recipes}
         windowSize={2}
         initialNumToRender={50}

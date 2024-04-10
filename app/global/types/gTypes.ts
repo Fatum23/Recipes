@@ -49,3 +49,9 @@ export type TypeRecipe = {
   addDate: string;
   editDate: string;
 };
+
+export type TypeFilter = {
+  id?: number;
+  title: string;
+  count: number;
+};

@@ -10,7 +10,6 @@ import { gColors } from "../../../global/styles/gColors";
 import { TypeAddRecipeButton } from "../types";
 
 import * as db from "../../../global/services/db/dbService";
-import { TypeRecipe } from "../../../global/types/gTypes";
 
 const addRecipe = (props: TypeAddRecipeButton) => {
   db.addRecipe({
@@ -83,9 +82,9 @@ export default function BottomButtons(
   }, []);
 
   return (
-    <View>
+    <View style={styles.container}>
       {!isKeyboardVisible && (
-        <View style={styles.container}>
+        <View>
           <TouchableOpacity
             style={styles.button}
             activeOpacity={0.4}

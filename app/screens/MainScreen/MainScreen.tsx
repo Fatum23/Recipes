@@ -40,7 +40,6 @@ export default function MainScreen() {
   useEffect(() => {
     if (recipesFetched === false) {
       setLoading(true);
-      console.log("fetching...");
       db.getRecipes(
         sortFilter,
         searchTitleFilter,
@@ -48,7 +47,6 @@ export default function MainScreen() {
         searchDescriptionFilter,
         (recipes: TypeRecipe[]) => {
           setRecipes(recipes);
-          console.log("fetched");
           setRecipesFetched(true);
           setLoading(false);
         },

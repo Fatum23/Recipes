@@ -11,6 +11,7 @@ import SearchInput from "./components/SearchInput";
 import SearchLinkWarning from "./components/SearchLinkWarning";
 import RecipeTypeFilters from "./components/RecipeTypeFilters";
 import BottomButtons from "./components/BottomButtons";
+import FiltersContainer from "../../global/components/Filters/FiltersContainer";
 
 export default function FiltersScreen({
   route,
@@ -61,7 +62,7 @@ export default function FiltersScreen({
         value={searchDescriptionFilter}
         setValue={setSearchDescriptionFilter}
       />
-      <RecipeTypeFilters
+      {/* <RecipeTypeFilters
         favorite={favoriteFilter}
         cakes={cakeFilter}
         cupcakes={cupcakeFilter}
@@ -70,7 +71,8 @@ export default function FiltersScreen({
         setCakes={setCakeFilter}
         setCupcakes={setCupcakeFilter}
         setPies={setPieFilter}
-      />
+      /> */}
+      <FiltersContainer />
       <BottomButtons
         sortFilter={sortFilter}
         searchTitleFilter={searchTitleFilter}

@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TextInput } from "react-native";
 import React from "react";
 import { gColors } from "../../../global/styles/gColors";
 import { TypeInputComponent } from "../types";
+import * as db from "../../../global/services/db/dbService";
 
 export default function InputComponent(props: TypeInputComponent) {
   const styles = StyleSheet.create({
@@ -43,15 +44,21 @@ export default function InputComponent(props: TypeInputComponent) {
         multiline={props.title === "Описание" ? true : false}
         onChangeText={(text) => {
           props.setValue(text);
-          if (props.title === "Ссылка") {
-            if (text !== "" && !text.includes("https://")) {
-              props.setLinkWarning("Ссылка должна начинаться с https://");
-            } else {
-              props.setLinkWarning("");
-            }
+          // if (props.title === "Ссылка") {
+          //   if (text !== "" && !text.includes("https://")) {
+          //     props.setLinkWarning("Ссылка должна начинаться с https://");
+          //   } else {
+          //     props.setLinkWarning("");
+          //   }
+          // }
+          // if (props.title === "Название" && text !== "") {
+          //   props.setTitleWarning("");
+          // }
+          if (props.title === "Название") {
+            db.checkRecipeExists(props.title, text, props.setTitleWarning);
           }
-          if (props.title === "Название" && text !== "") {
-            props.setTitleWarning("");
+          if (props.title === "Ссылка") {
+            db.checkRecipeExists(props.title, text, props.setLinkWarning);
           }
         }}
         defaultValue={props.value}

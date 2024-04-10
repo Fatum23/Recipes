@@ -1,5 +1,5 @@
 import * as sqlite from "expo-sqlite";
-import { TypeRecipe, TypeSortFilter } from "../../types/gTypes";
+import { TypeFilter, TypeRecipe, TypeSortFilter } from "../../types/gTypes";
 import { Dispatch, SetStateAction } from "react";
 
 const db = sqlite.openDatabase("recipes.db");
@@ -18,6 +18,16 @@ export const createTable = () => {
       addDate TEXT,
       editDate TEXT
     )`);
+    tx.executeSql(`CREATE TABLE IF NOT EXISTS filters(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT,
+      count INTEGER
+    )`);
+  });
+  getFilters("", (filters: TypeFilter[]) => {
+    if (filters.length === 0) {
+      addFilter("Понравившиеся");
+    }
   });
 };
 
@@ -188,6 +198,84 @@ export const deleteRecipe = (
         }
       },
       (tx, error) => {
+        console.log(error);
+        return false;
+      }
+    );
+  });
+};
+
+export const checkRecipeExists = (
+  key: "Название" | "Ссылка",
+  value: string,
+  setWarning: Dispatch<SetStateAction<string>>
+) => {
+  const sqlKey = key === "Название" ? "title" : "link";
+
+  db.transaction((tx) => {
+    tx.executeSql(
+      "SELECT * FROM recipes WHERE " + sqlKey + " = ?",
+      [value],
+      (_, { rows }) => {
+        const recipes: TypeRecipe[] = rows._array;
+        console.log(recipes);
+        if (recipes.length !== 0 && value !== "") {
+          setWarning(
+            "Рецепт с " +
+              (key === "Название" ? "таким названием" : "такой ссылкой") +
+              " уже существует"
+          );
+        } else {
+          setWarning("");
+        }
+      },
+      (_, error) => {
+        console.log(error);
+        return false;
+      }
+    );
+  });
+};
+
+export const addFilter = (title: string) => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      "INSERT INTO filters (title, count) VALUES (?, ?)",
+      [title, 0],
+      (_, { rowsAffected }) => {
+        console.log(
+          rowsAffected > 0
+            ? "Filters updated successfully"
+            : "Filters didn't update"
+        );
+      },
+      (_, error) => {
+        console.log(error);
+        return false;
+      }
+    );
+  });
+};
+
+export const getFilters = (
+  search: string,
+  successCallback: (filters: TypeFilter[]) => void
+) => {
+  let query: string = "SELECT * FROM filters";
+  let params: any[] = [];
+
+  if (search !== "") {
+    query += " WHERE key = ?";
+    params.push(search);
+  }
+  db.transaction((tx) => {
+    tx.executeSql(
+      query,
+      params,
+      (_, { rows }) => {
+        successCallback(rows._array);
+      },
+      (_, error) => {
         console.log(error);
         return false;
       }

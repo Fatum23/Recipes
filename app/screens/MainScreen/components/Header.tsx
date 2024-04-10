@@ -26,7 +26,7 @@ export default function Header(props: TypeFilterScreen) {
     },
     input: {
       height: "100%",
-      width: "75%",
+      width: "85%",
       borderWidth: 1,
       borderColor: gColors.green,
       borderRadius: 10,
@@ -72,9 +72,6 @@ export default function Header(props: TypeFilterScreen) {
                 : gColors.green
             }
           />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Ionicons name="settings-outline" size={32} color="black" />
         </TouchableOpacity>
       </View>
       <View style={styles.hr} />
