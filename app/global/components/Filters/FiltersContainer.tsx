@@ -1,30 +1,125 @@
-import { View, Text, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  FlatList,
+} from "react-native";
 import React, { useEffect, useState } from "react";
+import { AntDesign } from "@expo/vector-icons";
+
 import * as db from "../../services/db/dbService";
 import { TypeFilter } from "../../types/gTypes";
+import { gColors } from "../../styles/gColors";
+import FilterComponent from "./FilterComponent";
+import ModalComponent from "./ModalComponent";
 
 export default function FiltersContainer() {
   const [filters, setFilters] = useState<TypeFilter[]>([]);
+  const [filtersFetched, setFiltersFetched] = useState<boolean>(true);
+  const [search, setSearch] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => setFiltersFetched(false), []);
+  useEffect(() => setFiltersFetched(false), [search]);
+
   useEffect(() => {
-    db.getFilters("", (result: TypeFilter[]) => {
-      setFilters(result);
-    });
-  }, []);
+    if (filtersFetched === false) {
+      db.getFilters(search, (result: TypeFilter[]) => {
+        setFilters(result);
+        setFiltersFetched(true);
+      });
+    }
+  }, [filtersFetched]);
+
   return (
     <View style={styles.container}>
-      {filters.map((filter) => {
-        return <Text key={filter.id!}>{filter.title}</Text>;
-      })}
+      <View>
+        <TextInput
+          style={styles.input}
+          placeholder="Найти фильтр..."
+          onChangeText={(text) => setSearch(text)}
+          defaultValue={search}
+        />
+      </View>
+      <View style={styles.addFilterView}>
+        <TouchableOpacity
+          style={styles.addFilter}
+          activeOpacity={0.4}
+          onPress={() => setModalVisible(true)}
+        >
+          <AntDesign name="plus" size={24} color={gColors.green} />
+          <Text style={{ color: gColors.green, fontWeight: "500" }}>
+            Добавить фильтр
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <ModalComponent
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        setFiltersFetched={setFiltersFetched}
+      />
+      <View style={{ alignItems: "flex-start" }}>
+        <FlatList
+          horizontal
+          style={styles.filtersView}
+          removeClippedSubviews={false}
+          showsVerticalScrollIndicator={true}
+          scrollIndicatorInsets={{ right: 10 }}
+          data={filters}
+          windowSize={2}
+          initialNumToRender={50}
+          maxToRenderPerBatch={50}
+          renderItem={({ item }) => (
+            <FilterComponent
+              id={item.id!}
+              title={item.title}
+              active={false}
+              handleClick={() => null}
+              setFiltersFetched={setFiltersFetched}
+            />
+          )}
+          automaticallyAdjustsScrollIndicatorInsets={false}
+          keyExtractor={(item) => item.id!.toString()}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    height: 270,
-    backgroundColor: "red",
-    marginTop: 20,
+    height: 180,
+    marginTop: 30,
     marginLeft: 10,
     marginRight: 10,
+  },
+  input: {
+    padding: 5,
+    paddingLeft: 10,
+    borderWidth: 1,
+    borderColor: gColors.green,
+    borderRadius: 10,
+    width: 200,
+    height: 40,
+    marginRight: 10,
+  },
+  addFilterView: {
+    alignSelf: "flex-start",
+    marginTop: 10,
+  },
+  addFilter: {
+    padding: 10,
+    backgroundColor: "whitesmoke",
+    borderRadius: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+  },
+  filtersView: {
+    marginTop: 20,
+    paddingBottom: 20,
   },
 });

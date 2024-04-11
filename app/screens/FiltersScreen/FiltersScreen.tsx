@@ -1,4 +1,12 @@
 import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  Dimensions,
+  KeyboardAvoidingView,
+  ScrollView,
+  TextInput,
+  View,
+  Text,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -9,9 +17,9 @@ import ScreenHeader from "../../global/components/ScreenHeader";
 import SortFilters from "./components/SortFilters";
 import SearchInput from "./components/SearchInput";
 import SearchLinkWarning from "./components/SearchLinkWarning";
-import RecipeTypeFilters from "./components/RecipeTypeFilters";
 import BottomButtons from "./components/BottomButtons";
 import FiltersContainer from "../../global/components/Filters/FiltersContainer";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function FiltersScreen({
   route,
@@ -48,57 +56,58 @@ export default function FiltersScreen({
   );
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      <ScreenHeader navigation={navigation} title="Фильтры" />
-      <SortFilters sortFilter={sortFilter} setSortFilter={setSortFilter} />
-      <SearchInput
-        type="link"
-        value={searchLinkFilter}
-        setValue={setSearchLinkFilter}
-      />
-      <SearchLinkWarning searchLinkFilter={searchLinkFilter} />
-      <SearchInput
-        type="description"
-        value={searchDescriptionFilter}
-        setValue={setSearchDescriptionFilter}
-      />
-      {/* <RecipeTypeFilters
-        favorite={favoriteFilter}
-        cakes={cakeFilter}
-        cupcakes={cupcakeFilter}
-        pies={pieFilter}
-        setFavorite={setFavoriteFilter}
-        setCakes={setCakeFilter}
-        setCupcakes={setCupcakeFilter}
-        setPies={setPieFilter}
-      /> */}
-      <FiltersContainer />
-      <BottomButtons
-        sortFilter={sortFilter}
-        searchTitleFilter={searchTitleFilter}
-        searchLinkFilter={searchLinkFilter}
-        searchDescriptionFilter={searchDescriptionFilter}
-        favoriteFilter={favoriteFilter}
-        cakeFilter={cakeFilter}
-        cupcakeFilter={cupcakeFilter}
-        pieFilter={pieFilter}
-        setLocalSortFilter={setSortFilter}
-        setLocalSearchTitleFilter={setSearchTitleFilter}
-        setLocalSearchLinkFilter={setSearchLinkFilter}
-        setLocalSearchDescriptionFilter={setSearchDescriptionFilter}
-        setLocalFavoriteFilter={setFavoriteFilter}
-        setLocalCakeFilter={setCakeFilter}
-        setLocalCupcakeFilter={setCupcakeFilter}
-        setLocalPieFilter={setPieFilter}
-        setSortFilter={route.params.setSortFilter}
-        setSearchTitleFilter={route.params.setSearchTitleFilter}
-        setSearchLinkFilter={route.params.setSearchLinkFilter}
-        setSearchDescriptionFilter={route.params.setSearchDescriptionFilter}
-        setFavoriteFilter={route.params.setFavoriteFilter}
-        setCakeFilter={route.params.setCakeFilter}
-        setCupcakeFilter={route.params.setCupcakeFilter}
-        setPieFilter={route.params.setPieFilter}
-      />
-    </SafeAreaView>
+    <KeyboardAvoidingView
+      style={{ flex: 1, flexDirection: "column" }}
+      behavior="padding"
+    >
+      <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView
+          style={{ flex: 1, backgroundColor: "white" }}
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps={"always"}
+        >
+          <ScreenHeader navigation={navigation} title="Фильтры" />
+          <SortFilters sortFilter={sortFilter} setSortFilter={setSortFilter} />
+          <SearchInput
+            type="link"
+            value={searchLinkFilter}
+            setValue={setSearchLinkFilter}
+          />
+          <SearchLinkWarning searchLinkFilter={searchLinkFilter} />
+          <SearchInput
+            type="description"
+            value={searchDescriptionFilter}
+            setValue={setSearchDescriptionFilter}
+          />
+          <FiltersContainer />
+          <BottomButtons
+            sortFilter={sortFilter}
+            searchTitleFilter={searchTitleFilter}
+            searchLinkFilter={searchLinkFilter}
+            searchDescriptionFilter={searchDescriptionFilter}
+            favoriteFilter={favoriteFilter}
+            cakeFilter={cakeFilter}
+            cupcakeFilter={cupcakeFilter}
+            pieFilter={pieFilter}
+            setLocalSortFilter={setSortFilter}
+            setLocalSearchTitleFilter={setSearchTitleFilter}
+            setLocalSearchLinkFilter={setSearchLinkFilter}
+            setLocalSearchDescriptionFilter={setSearchDescriptionFilter}
+            setLocalFavoriteFilter={setFavoriteFilter}
+            setLocalCakeFilter={setCakeFilter}
+            setLocalCupcakeFilter={setCupcakeFilter}
+            setLocalPieFilter={setPieFilter}
+            setSortFilter={route.params.setSortFilter}
+            setSearchTitleFilter={route.params.setSearchTitleFilter}
+            setSearchLinkFilter={route.params.setSearchLinkFilter}
+            setSearchDescriptionFilter={route.params.setSearchDescriptionFilter}
+            setFavoriteFilter={route.params.setFavoriteFilter}
+            setCakeFilter={route.params.setCakeFilter}
+            setCupcakeFilter={route.params.setCupcakeFilter}
+            setPieFilter={route.params.setPieFilter}
+          />
+        </ScrollView>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 }

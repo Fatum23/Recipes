@@ -14,28 +14,6 @@ import { useNavigation } from "@react-navigation/native";
 export default function BottomButtons(props: TypeBottomButtons) {
   const navigation = useNavigation();
 
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      "keyboardDidShow",
-      () => {
-        setKeyboardVisible(true); // or some other action
-      }
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      "keyboardDidHide",
-      () => {
-        setKeyboardVisible(false); // or some other action
-      }
-    );
-
-    return () => {
-      keyboardDidHideListener.remove();
-      keyboardDidShowListener.remove();
-    };
-  }, []);
-
   const handleDiscard = (props: TypeBottomButtons) => {
     props.setLocalSortFilter("От новых к старым");
     props.setLocalSearchLinkFilter("");
@@ -65,33 +43,31 @@ export default function BottomButtons(props: TypeBottomButtons) {
   };
   return (
     <View style={styles.container}>
-      {!isKeyboardVisible && (
-        <View>
-          <TouchableOpacity
-            style={styles.discardButton}
-            activeOpacity={0.4}
-            onPress={() => handleDiscard(props)}
-          >
-            <Text style={styles.discardText}>Сбросить все</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.applyButton}
-            activeOpacity={0.4}
-            onPress={() => handleApply(props)}
-          >
-            <Text style={styles.applyText}>Применить</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      <View>
+        <TouchableOpacity
+          style={styles.discardButton}
+          activeOpacity={0.4}
+          onPress={() => handleDiscard(props)}
+        >
+          <Text style={styles.discardText}>Сбросить все</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.applyButton}
+          activeOpacity={0.4}
+          onPress={() => handleApply(props)}
+        >
+          <Text style={styles.applyText}>Применить</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    position: "absolute",
-    bottom: 20,
+    flex: 1,
+    justifyContent: "flex-end",
+    marginBottom: 20,
     alignItems: "center",
   },
   discardButton: {

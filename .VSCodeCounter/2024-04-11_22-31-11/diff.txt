@@ -1,0 +1,37 @@
+Date : 2024-04-11 22:31:11
+Directory : d:\Projects\mobile\Recipes\app
+Total : 5 files,  -219 codes, 0 comments, -12 blanks, all -231 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| TypeScript JSX |          5 |       -219 |          0 |        -12 |       -231 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                         | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                            |          5 |       -219 |          0 |        -12 |       -231 |
+| screens                                                                                      |          5 |       -219 |          0 |        -12 |       -231 |
+| screens\AddRecipeScreen                                                                      |          2 |        -90 |          0 |         -5 |        -95 |
+| screens\AddRecipeScreen\components                                                           |          2 |        -90 |          0 |         -5 |        -95 |
+| screens\FiltersScreen                                                                        |          2 |       -101 |          0 |         -5 |       -106 |
+| screens\FiltersScreen\components                                                             |          2 |       -101 |          0 |         -5 |       -106 |
+| screens\MainScreen                                                                           |          1 |        -28 |          0 |         -2 |        -30 |
+| screens\MainScreen\components                                                                |          1 |        -28 |          0 |         -2 |        -30 |
+| screens\MainScreen\components\RecipeCard                                                     |          1 |        -28 |          0 |         -2 |        -30 |
++----------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                                     | language       | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| d:\Projects\mobile\Recipes\app\screens\AddRecipeScreen\components\FilterComponent.tsx        | TypeScript JSX |        -52 |          0 |         -3 |        -55 |
+| d:\Projects\mobile\Recipes\app\screens\AddRecipeScreen\components\Filters.tsx                | TypeScript JSX |        -38 |          0 |         -2 |        -40 |
+| d:\Projects\mobile\Recipes\app\screens\FiltersScreen\components\FilterComponent.tsx          | TypeScript JSX |        -63 |          0 |         -3 |        -66 |
+| d:\Projects\mobile\Recipes\app\screens\FiltersScreen\components\RecipeTypeFilters.tsx        | TypeScript JSX |        -38 |          0 |         -2 |        -40 |
+| d:\Projects\mobile\Recipes\app\screens\MainScreen\components\RecipeCard\RecipeTypeFilter.tsx | TypeScript JSX |        -28 |          0 |         -2 |        -30 |
+| Total                                                                                        |                |       -219 |          0 |        -12 |       -231 |
++----------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+

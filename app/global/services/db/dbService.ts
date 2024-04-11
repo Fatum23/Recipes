@@ -24,7 +24,7 @@ export const createTable = () => {
       count INTEGER
     )`);
   });
-  getFilters("", (filters: TypeFilter[]) => {
+  getFilters("Понравившиеся", (filters: TypeFilter[]) => {
     if (filters.length === 0) {
       addFilter("Понравившиеся");
     }
@@ -265,9 +265,10 @@ export const getFilters = (
   let params: any[] = [];
 
   if (search !== "") {
-    query += " WHERE key = ?";
+    query += " WHERE title LIKE '%' || ? || '%'";
     params.push(search);
   }
+  console.log(query);
   db.transaction((tx) => {
     tx.executeSql(
       query,
@@ -276,6 +277,29 @@ export const getFilters = (
         successCallback(rows._array);
       },
       (_, error) => {
+        console.log(error);
+        return false;
+      }
+    );
+  });
+};
+
+export const deleteFilter = (
+  id: number,
+  setFiltersFetched: Dispatch<SetStateAction<boolean>>
+) => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      "DELETE FROM filters WHERE id = ?",
+      [id],
+      (tx, result) => {
+        if (result.rowsAffected > 0) {
+          setFiltersFetched(false);
+        } else {
+          console.log("Filter not found");
+        }
+      },
+      (tx, error) => {
         console.log(error);
         return false;
       }
