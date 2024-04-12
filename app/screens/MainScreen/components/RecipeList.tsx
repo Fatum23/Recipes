@@ -1,11 +1,4 @@
-import {
-  FlatList,
-  Text,
-  StyleSheet,
-  View,
-  ActivityIndicator,
-  Modal,
-} from "react-native";
+import { Text, StyleSheet, View, ActivityIndicator } from "react-native";
 import React, { Dispatch, SetStateAction } from "react";
 import RecipeCard from "./RecipeCard/RecipeCard";
 import { gColors } from "../../../global/styles/gColors";
@@ -27,10 +20,7 @@ export default function RecipeList(props: {
   searchTitleFilter: string;
   searchLinkFilter: string;
   searchDescriptionFilter: string;
-  favoriteFilter: boolean | null;
-  cakeFilter: boolean | null;
-  pieFilter: boolean | null;
-  cupcakeFilter: boolean | null;
+  recipeTypeFilters: string[];
 }) {
   const recipesOpacity = useSharedValue(0);
   const recipesOpacityStyle = useAnimatedStyle(() => {
@@ -62,10 +52,7 @@ export default function RecipeList(props: {
           props.searchTitleFilter === "" &&
           props.searchLinkFilter === "" &&
           props.searchDescriptionFilter === "" &&
-          props.favoriteFilter === null &&
-          props.cakeFilter === null &&
-          props.cupcakeFilter === null &&
-          props.pieFilter === null
+          props.recipeTypeFilters.length === 0
           ? 1
           : 0,
         {
@@ -86,10 +73,7 @@ export default function RecipeList(props: {
             props.searchTitleFilter !== "" ||
             props.searchLinkFilter !== "" ||
             props.searchDescriptionFilter !== "" ||
-            props.favoriteFilter !== null ||
-            props.cakeFilter !== null ||
-            props.cupcakeFilter !== null ||
-            props.pieFilter !== null)
+            props.recipeTypeFilters.length === 0)
           ? 1
           : 0,
         {

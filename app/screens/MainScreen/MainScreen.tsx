@@ -17,10 +17,7 @@ export default function MainScreen() {
   const [searchDescriptionFilter, setSearchDescriptionFilter] =
     useState<string>("");
 
-  const [favoriteFilter, setFavoriteFilter] = useState<boolean | null>(null);
-  const [cakeFilter, setCakeFilter] = useState<boolean | null>(null);
-  const [cupcakeFilter, setCupcakeFilter] = useState<boolean | null>(null);
-  const [pieFilter, setPieFilter] = useState<boolean | null>(null);
+  const [recipeTypeFilters, setRecipeTypeFilters] = useState<string[]>([]);
 
   const [recipes, setRecipes] = useState<TypeRecipe[]>([]);
   const [recipesFetched, setRecipesFetched] = useState<boolean>(true);
@@ -66,18 +63,12 @@ export default function MainScreen() {
         searchTitleFilter={searchTitleFilter}
         searchLinkFilter={searchLinkFilter}
         searchDescriptionFilter={searchDescriptionFilter}
-        favoriteFilter={favoriteFilter}
-        cakeFilter={cakeFilter}
-        cupcakeFilter={cupcakeFilter}
-        pieFilter={pieFilter}
+        recipeTypeFilters={recipeTypeFilters}
         setSortFilter={setSortFilter}
         setSearchTitleFilter={setSearchTitleFilter}
         setSearchLinkFilter={setSearchLinkFilter}
         setSearchDescriptionFilter={setSearchDescriptionFilter}
-        setFavoriteFilter={setFavoriteFilter}
-        setCakeFilter={setCakeFilter}
-        setCupcakeFilter={setCupcakeFilter}
-        setPieFilter={setPieFilter}
+        setRecipeTypeFilters={setRecipeTypeFilters}
       />
       <RecipeList
         loading={loading}
@@ -87,10 +78,7 @@ export default function MainScreen() {
         searchTitleFilter={searchTitleFilter}
         searchLinkFilter={searchLinkFilter}
         searchDescriptionFilter={searchDescriptionFilter}
-        favoriteFilter={favoriteFilter}
-        cakeFilter={cakeFilter}
-        cupcakeFilter={cupcakeFilter}
-        pieFilter={pieFilter}
+        recipeTypeFilters={recipeTypeFilters}
       />
       <AddRecipeButton setGetRecipe={setRecipesFetched} />
     </SafeAreaView>

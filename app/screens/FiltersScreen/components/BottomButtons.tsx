@@ -18,26 +18,17 @@ export default function BottomButtons(props: TypeBottomButtons) {
     props.setLocalSortFilter("От новых к старым");
     props.setLocalSearchLinkFilter("");
     props.setLocalSearchDescriptionFilter("");
-    props.setLocalFavoriteFilter(null);
-    props.setLocalCakeFilter(null);
-    props.setLocalCupcakeFilter(null);
-    props.setLocalPieFilter(null);
+    props.setActiveFilters([]);
     props.setSortFilter("От новых к старым");
     props.setSearchLinkFilter("");
     props.setSearchDescriptionFilter("");
-    props.setFavoriteFilter(null);
-    props.setCakeFilter(null);
-    props.setCupcakeFilter(null);
-    props.setPieFilter(null);
+    props.setRecipeTypeFilters(props.recipeTypeFilters);
   };
   const handleApply = (props: TypeFilterScreen) => {
     props.setSortFilter(props.sortFilter);
     props.setSearchLinkFilter(props.searchLinkFilter);
     props.setSearchDescriptionFilter(props.searchDescriptionFilter);
-    props.setFavoriteFilter(props.favoriteFilter);
-    props.setCakeFilter(props.cakeFilter);
-    props.setCupcakeFilter(props.cupcakeFilter);
-    props.setPieFilter(props.pieFilter);
+    props.setRecipeTypeFilters(props.recipeTypeFilters);
 
     navigation.goBack();
   };

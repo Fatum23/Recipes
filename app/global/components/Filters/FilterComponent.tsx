@@ -6,7 +6,6 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import React, { Dispatch, SetStateAction, useState } from "react";
-import { AntDesign } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import Modal from "react-native-modal";
 
@@ -16,8 +15,9 @@ import * as db from "../../services/db/dbService";
 type TypeFilterComponent = {
   id: number;
   title: string;
+  count: number;
   active: boolean;
-  handleClick: Dispatch<SetStateAction<boolean>>;
+  handleClick: (title: string, active: boolean) => void;
   setFiltersFetched: Dispatch<SetStateAction<boolean>>;
 };
 export default function FilterComponent(props: TypeFilterComponent) {
@@ -102,6 +102,7 @@ export default function FilterComponent(props: TypeFilterComponent) {
                 padding: 10,
               }}
               onPress={() => {
+                props.handleClick(props.title, true);
                 db.deleteFilter(props.id, props.setFiltersFetched);
               }}
             >
@@ -112,7 +113,7 @@ export default function FilterComponent(props: TypeFilterComponent) {
       </Modal>
       <TouchableOpacity
         style={{ flex: 1 }}
-        onPress={() => props.handleClick(props.active ? false : true)}
+        onPress={() => props.handleClick(props.title, props.active)}
         onLongPress={() => {
           if (props.title !== "Понравившиеся") {
             setSelectedFilter(props.title);
@@ -123,9 +124,15 @@ export default function FilterComponent(props: TypeFilterComponent) {
       >
         <View style={styles.button}>
           <Text style={styles.title}>{props.title}</Text>
-          {props.active && (
-            <AntDesign name="checkcircle" size={20} color="white" />
-          )}
+          <Text
+            style={{
+              color: props.active ? "gainsboro" : "#989898",
+              fontWeight: "bold",
+              fontSize: 16,
+            }}
+          >
+            {props.count}
+          </Text>
         </View>
       </TouchableOpacity>
     </View>

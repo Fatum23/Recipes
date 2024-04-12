@@ -12,7 +12,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 import { StackParamList, TypeRecipe } from "../../../../global/types/gTypes";
 import HighlightText from "./HighlightText";
-import RecipeTypeFilter from "./RecipeTypeFilter";
 import { gColors } from "../../../../global/styles/gColors";
 
 import * as db from "../../../../global/services/db/dbService";
@@ -119,11 +118,6 @@ export default function RecipeCard(
       </View>
       <View style={styles.hr}></View>
 
-      <View style={styles.recipeTypeFiltersContainer}>
-        <RecipeTypeFilter type="Торты" active={props.cake} />
-        <RecipeTypeFilter type="Пирожные" active={props.cupcake} />
-        <RecipeTypeFilter type="Пироги" active={props.pie} />
-      </View>
       <View style={styles.hr}></View>
 
       <View style={styles.bottomContainer}>

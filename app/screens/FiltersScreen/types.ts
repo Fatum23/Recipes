@@ -17,8 +17,5 @@ export type TypeBottomButtons = TypeFilterScreen & {
   setLocalSearchTitleFilter: Dispatch<SetStateAction<string>>;
   setLocalSearchLinkFilter: Dispatch<SetStateAction<string>>;
   setLocalSearchDescriptionFilter: Dispatch<SetStateAction<string>>;
-  setLocalFavoriteFilter: Dispatch<SetStateAction<boolean | null>>;
-  setLocalCakeFilter: Dispatch<SetStateAction<boolean | null>>;
-  setLocalCupcakeFilter: Dispatch<SetStateAction<boolean | null>>;
-  setLocalPieFilter: Dispatch<SetStateAction<boolean | null>>;
+  setActiveFilters: Dispatch<SetStateAction<string[]>>;
 };

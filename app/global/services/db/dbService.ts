@@ -265,6 +265,7 @@ export const getFilters = (
   let params: any[] = [];
 
   if (search !== "") {
+    console.log(search);
     query += " WHERE title LIKE '%' || ? || '%'";
     params.push(search);
   }

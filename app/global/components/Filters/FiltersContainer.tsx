@@ -7,7 +7,7 @@ import {
   TouchableWithoutFeedback,
   FlatList,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 
 import * as db from "../../services/db/dbService";
@@ -16,7 +16,10 @@ import { gColors } from "../../styles/gColors";
 import FilterComponent from "./FilterComponent";
 import ModalComponent from "./ModalComponent";
 
-export default function FiltersContainer() {
+export default function FiltersContainer(props: {
+  activeFilters: string[];
+  setActiveFilters: Dispatch<SetStateAction<string[]>>;
+}) {
   const [filters, setFilters] = useState<TypeFilter[]>([]);
   const [filtersFetched, setFiltersFetched] = useState<boolean>(true);
   const [search, setSearch] = useState("");
@@ -76,8 +79,15 @@ export default function FiltersContainer() {
             <FilterComponent
               id={item.id!}
               title={item.title}
-              active={false}
-              handleClick={() => null}
+              count={item.count}
+              active={props.activeFilters.includes(item.title)}
+              handleClick={(title: string, active: boolean) =>
+                props.setActiveFilters((filters) =>
+                  active
+                    ? filters.filter((filter) => filter !== title)
+                    : filters.concat(title)
+                )
+              }
               setFiltersFetched={setFiltersFetched}
             />
           )}

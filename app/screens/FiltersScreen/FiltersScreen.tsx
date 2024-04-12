@@ -42,17 +42,8 @@ export default function FiltersScreen({
   const [searchDescriptionFilter, setSearchDescriptionFilter] =
     useState<string>(route.params.searchDescriptionFilter);
 
-  const [favoriteFilter, setFavoriteFilter] = useState<boolean | null>(
-    route.params.favoriteFilter
-  );
-  const [cakeFilter, setCakeFilter] = useState<boolean | null>(
-    route.params.cakeFilter
-  );
-  const [cupcakeFilter, setCupcakeFilter] = useState<boolean | null>(
-    route.params.cupcakeFilter
-  );
-  const [pieFilter, setPieFilter] = useState<boolean | null>(
-    route.params.pieFilter
+  const [activeFilters, setActiveFilters] = useState<string[]>(
+    route.params.recipeTypeFilters
   );
 
   return (
@@ -79,32 +70,26 @@ export default function FiltersScreen({
             value={searchDescriptionFilter}
             setValue={setSearchDescriptionFilter}
           />
-          <FiltersContainer />
+          <FiltersContainer
+            activeFilters={activeFilters}
+            setActiveFilters={setActiveFilters}
+          />
           <BottomButtons
             sortFilter={sortFilter}
             searchTitleFilter={searchTitleFilter}
             searchLinkFilter={searchLinkFilter}
             searchDescriptionFilter={searchDescriptionFilter}
-            favoriteFilter={favoriteFilter}
-            cakeFilter={cakeFilter}
-            cupcakeFilter={cupcakeFilter}
-            pieFilter={pieFilter}
+            recipeTypeFilters={activeFilters}
             setLocalSortFilter={setSortFilter}
             setLocalSearchTitleFilter={setSearchTitleFilter}
             setLocalSearchLinkFilter={setSearchLinkFilter}
             setLocalSearchDescriptionFilter={setSearchDescriptionFilter}
-            setLocalFavoriteFilter={setFavoriteFilter}
-            setLocalCakeFilter={setCakeFilter}
-            setLocalCupcakeFilter={setCupcakeFilter}
-            setLocalPieFilter={setPieFilter}
+            setActiveFilters={setActiveFilters}
             setSortFilter={route.params.setSortFilter}
             setSearchTitleFilter={route.params.setSearchTitleFilter}
             setSearchLinkFilter={route.params.setSearchLinkFilter}
             setSearchDescriptionFilter={route.params.setSearchDescriptionFilter}
-            setFavoriteFilter={route.params.setFavoriteFilter}
-            setCakeFilter={route.params.setCakeFilter}
-            setCupcakeFilter={route.params.setCupcakeFilter}
-            setPieFilter={route.params.setPieFilter}
+            setRecipeTypeFilters={route.params.setRecipeTypeFilters}
           />
         </ScrollView>
       </SafeAreaView>

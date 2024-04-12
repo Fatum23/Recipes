@@ -64,10 +64,7 @@ export default function Header(props: TypeFilterScreen) {
               props.sortFilter === "От новых к старым" &&
               props.searchLinkFilter === "" &&
               props.searchDescriptionFilter === "" &&
-              props.favoriteFilter === null &&
-              props.cakeFilter === null &&
-              props.cupcakeFilter === null &&
-              props.pieFilter === null
+              props.recipeTypeFilters.length === 0
                 ? "black"
                 : gColors.green
             }
