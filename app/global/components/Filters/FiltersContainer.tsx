@@ -81,12 +81,13 @@ export default function FiltersContainer(props: {
               title={item.title}
               count={item.count}
               active={props.activeFilters.includes(item.title)}
-              handleClick={(title: string, active: boolean) =>
-                props.setActiveFilters((filters) =>
-                  active
-                    ? filters.filter((filter) => filter !== title)
-                    : filters.concat(title)
-                )
+              handleClick={(title: string) =>
+                props.setActiveFilters((prevState) => {
+                  if (props.activeFilters.includes(title)) {
+                    return prevState.filter((filter) => filter !== title);
+                  }
+                  return prevState.concat(title);
+                })
               }
               setFiltersFetched={setFiltersFetched}
             />

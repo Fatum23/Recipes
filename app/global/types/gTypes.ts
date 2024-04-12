@@ -36,10 +36,7 @@ export type TypeRecipe = {
   title: string;
   link: string;
   description: string;
-  favorite: boolean;
-  cake: boolean;
-  cupcake: boolean;
-  pie: boolean;
+  filters: string[];
   addDate: string;
   editDate: string;
 };

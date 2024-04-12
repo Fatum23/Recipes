@@ -41,10 +41,7 @@ export type TypeAddRecipeButton = {
   title: string;
   link: string;
   description: string;
-  favorite: boolean;
-  cakes: boolean;
-  pies: boolean;
-  cupcakes: boolean;
+  filters: string[];
   setTitle: Dispatch<SetStateAction<string>>;
   setLink: Dispatch<SetStateAction<string>>;
   setDescription: Dispatch<SetStateAction<string>>;

@@ -72,6 +72,8 @@ export default function RecipeCard(
     },
   });
 
+  console.log(props.filters + "dfjsdjfkl", typeof props.filters);
+
   return (
     <View
       style={[styles.container, props.marginBottom && { marginBottom: 110 }]}
@@ -128,11 +130,13 @@ export default function RecipeCard(
         <View style={styles.bottomRightContainer}>
           <TouchableOpacity
             onPress={() =>
-              db.likeRecipe(props.id!, !props.favorite, props.setRecipesFetched)
+              db.likeRecipe(props.id!, props.filters, props.setRecipesFetched)
             }
           >
             <AntDesign
-              name={props.favorite ? "heart" : "hearto"}
+              name={
+                props.filters.includes("Понравившиеся") ? "heart" : "hearto"
+              }
               size={30}
               color={gColors.red}
             />
@@ -145,10 +149,7 @@ export default function RecipeCard(
                 title: props.title,
                 link: props.link,
                 description: props.description,
-                favorite: !!props.favorite,
-                cake: !!props.cake,
-                cupcake: !!props.cupcake,
-                pie: !!props.pie,
+                filters: props.filters,
                 addDate: props.addDate,
                 editDate: props.editDate,
                 setRecipesFetched: props.setRecipesFetched,

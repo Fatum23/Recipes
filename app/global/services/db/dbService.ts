@@ -11,10 +11,7 @@ export const createTable = () => {
       title TEXT,
       link TEXT,
       description TEXT,
-      favorite INTEGER NULL,
-      cake INTEGER NULL,
-      cupcake INTEGER NULL,
-      pie INTEGER NULL,
+      filters TEXT,
       addDate TEXT,
       editDate TEXT
     )`);
@@ -34,20 +31,18 @@ export const createTable = () => {
 export const addRecipe = (recipe: TypeRecipe) => {
   db.transaction((tx) => {
     tx.executeSql(
-      "INSERT INTO recipes (title, link, description, favorite, cake, cupcake, pie, addDate, editDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO recipes (title, link, description, filters, addDate, editDate) VALUES (?, ?, ?, ?, ?, ?)",
       [
         recipe.title,
         recipe.link,
         recipe.description,
-        Number(recipe.favorite),
-        Number(recipe.cake),
-        Number(recipe.cupcake),
-        Number(recipe.pie),
+        JSON.stringify(recipe.filters),
         recipe.addDate,
         recipe.editDate,
       ],
       (_, { rowsAffected }) => {
         if (rowsAffected > 0) {
+          recipe.filters.forEach((filter) => editFilter(filter, "increase"));
           console.log("Recipe added successfully");
         } else {
           console.log("Failed to add recipe");
@@ -105,7 +100,6 @@ export const getRecipes = (
       " ORDER BY CASE WHEN title GLOB '[0-9]*' THEN 2 ELSE 1 END, LOWER(title) DESC";
   }
   db.transaction((tx) => {
-    console.log(query);
     tx.executeSql(
       query,
       params,
@@ -123,15 +117,20 @@ export const getRecipes = (
 
 export const likeRecipe = async (
   id: number,
-  like: boolean,
+  filters: string[],
   setRecipesFetched: Dispatch<SetStateAction<boolean>>
 ) => {
+  console.log(typeof filters);
   db.transaction((tx) => {
     tx.executeSql(
-      "UPDATE recipes SET favorite = ? WHERE id = ?",
-      [Number(like), id],
+      "UPDATE recipes SET filters = ? WHERE id = ?",
+      [filters, id],
       (txObj, resultSet) => {
         if (resultSet.rowsAffected > 0) {
+          editFilter(
+            "Понравившиеся",
+            filters.includes("Понравившиеся") ? "decrease" : "increase"
+          );
           setRecipesFetched(false);
           console.log("Row updated successfully");
         } else {
@@ -150,18 +149,14 @@ export const editRecipe = (
   recipe: TypeRecipe,
   setRecipesFetched: Dispatch<SetStateAction<boolean>>
 ) => {
-  console.log(recipe);
   db.transaction((tx) => {
     tx.executeSql(
-      "UPDATE recipes SET title = ?, link = ?, description = ?, favorite = ?, cake = ?, cupcake = ?, pie = ?, addDate = ?, editDate = ?  WHERE id = ?",
+      "UPDATE recipes SET title = ?, link = ?, description = ?, filters = ?, addDate = ?, editDate = ?  WHERE id = ?",
       [
         recipe.title,
         recipe.link,
         recipe.description,
-        Number(recipe.favorite),
-        Number(recipe.cake),
-        Number(recipe.cupcake),
-        Number(recipe.pie),
+        JSON.stringify(recipe.filters),
         recipe.addDate,
         recipe.editDate,
         recipe.id!,
@@ -218,7 +213,6 @@ export const checkRecipeExists = (
       [value],
       (_, { rows }) => {
         const recipes: TypeRecipe[] = rows._array;
-        console.log(recipes);
         if (recipes.length !== 0 && value !== "") {
           setWarning(
             "Рецепт с " +
@@ -265,11 +259,9 @@ export const getFilters = (
   let params: any[] = [];
 
   if (search !== "") {
-    console.log(search);
     query += " WHERE title LIKE '%' || ? || '%'";
     params.push(search);
   }
-  console.log(query);
   db.transaction((tx) => {
     tx.executeSql(
       query,
@@ -279,6 +271,47 @@ export const getFilters = (
       },
       (_, error) => {
         console.log(error);
+        return false;
+      }
+    );
+  });
+};
+
+export const getFilterCount = (
+  title: string,
+  successCallback: (count: number) => void
+) => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      "SELECT * FROM filters WHERE title = ?",
+      [title],
+      (_, { rows }) => {
+        successCallback(rows._array[0]["count"]);
+      },
+      (_, error) => {
+        console.log(error);
+        return false;
+      }
+    );
+  });
+};
+
+export const editFilter = (title: string, editWay: "increase" | "decrease") => {
+  let count: number = 0;
+  getFilterCount(title, (result: number) => (count = result));
+  db.transaction((tx) => {
+    tx.executeSql(
+      "UPDATE filters SET count = ? WHERE title = ?",
+      [editWay === "increase" ? count + 1 : count - 1, title],
+      (txObj, resultSet) => {
+        if (resultSet.rowsAffected > 0) {
+          console.log("Filter updated successfully");
+        } else {
+          console.log("Filter not updated");
+        }
+      },
+      (_, err: sqlite.SQLError) => {
+        console.log(err);
         return false;
       }
     );

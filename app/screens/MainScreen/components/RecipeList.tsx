@@ -73,7 +73,7 @@ export default function RecipeList(props: {
             props.searchTitleFilter !== "" ||
             props.searchLinkFilter !== "" ||
             props.searchDescriptionFilter !== "" ||
-            props.recipeTypeFilters.length === 0)
+            props.recipeTypeFilters.length !== 0)
           ? 1
           : 0,
         {
@@ -103,16 +103,13 @@ export default function RecipeList(props: {
         windowSize={2}
         initialNumToRender={50}
         maxToRenderPerBatch={50}
-        renderItem={({ item, index }) => (
+        renderItem={({ item, index }: { item: TypeRecipe; index: number }) => (
           <RecipeCard
             id={item.id}
-            title={item.title}
+            title={typeof JSON.parse(item.filters)}
             link={item.link}
             description={item.description}
-            favorite={item.favorite}
-            cake={item.cake}
-            cupcake={item.cupcake}
-            pie={item.pie}
+            filters={item.filters}
             addDate={item.addDate}
             editDate={item.editDate}
             marginBottom={index + 1 === props.recipes.length}

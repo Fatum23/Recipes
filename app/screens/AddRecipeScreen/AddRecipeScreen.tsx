@@ -2,7 +2,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useDebugValue, useEffect, useState } from "react";
 import ScreenHeader from "../../global/components/ScreenHeader";
 import Inputs from "./components/Inputs";
-import Filters from "./components/Filters";
 import AddRecipeButton from "./components/AddRecipeButton";
 import { RouteProp, useNavigation } from "@react-navigation/native";
 import { StackParamList } from "../../global/types/gTypes";
@@ -18,10 +17,9 @@ export default function AddRecipeScreen({
   const [link, setLink] = useState(route.params.link);
   const [description, setDescription] = useState(route.params.description);
 
-  const [favorite, setFavorite] = useState(route.params.favorite);
-  const [cakes, setCakes] = useState(route.params.cake);
-  const [cupcakes, setCupcakes] = useState(route.params.cupcake);
-  const [pies, setPies] = useState(route.params.pie);
+  const [recipeTypeFilters, setRecipeTypeFilters] = useState<string[]>(
+    route.params.filters
+  );
 
   const [titleWarning, setTitleWarning] = useState("");
   const [linkWarning, setLinkWarning] = useState("");
@@ -44,17 +42,10 @@ export default function AddRecipeScreen({
         setTitleWarning={setTitleWarning}
         setLinkWarning={setLinkWarning}
       />
-      {/* <Filters
-        favorite={favorite}
-        cakes={cakes}
-        pies={pies}
-        cupcakes={cupcakes}
-        setFavorite={setFavorite}
-        setCakes={setCakes}
-        setPies={setPies}
-        setCupcakes={setCupcakes}
-      /> */}
-      <FiltersContainer />
+      <FiltersContainer
+        activeFilters={recipeTypeFilters}
+        setActiveFilters={setRecipeTypeFilters}
+      />
       <AddRecipeButton
         action={route.params.action}
         id={
@@ -65,10 +56,7 @@ export default function AddRecipeScreen({
         title={title}
         link={link}
         description={description}
-        favorite={favorite}
-        cakes={cakes}
-        pies={pies}
-        cupcakes={cupcakes}
+        filters={recipeTypeFilters}
         setTitle={setTitle}
         setLink={setLink}
         setDescription={setDescription}
