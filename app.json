@@ -4,27 +4,41 @@
     "slug": "Recipes",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./app/global/assets/images/app-icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./app/global/assets/images/app-splash.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
+    "assetBundlePatterns": ["**/*"],
+    "intentFilters": [
+      {
+        "action": "VIEW",
+        "data": {
+          "scheme": "https",
+          "host": "example.com"
+        },
+        "category": ["BROWSABLE", "DEFAULT"]
+      }
     ],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./app/global/assets/images/app-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.fatum.recipes"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f72b0523-bc03-45d3-85a3-36e391601089"
+      }
     }
   }
 }

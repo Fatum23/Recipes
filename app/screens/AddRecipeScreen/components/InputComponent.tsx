@@ -44,16 +44,16 @@ export default function InputComponent(props: TypeInputComponent) {
         multiline={props.title === "Описание" ? true : false}
         onChangeText={(text) => {
           props.setValue(text);
-          // if (props.title === "Ссылка") {
-          //   if (text !== "" && !text.includes("https://")) {
-          //     props.setLinkWarning("Ссылка должна начинаться с https://");
-          //   } else {
-          //     props.setLinkWarning("");
-          //   }
-          // }
-          // if (props.title === "Название" && text !== "") {
-          //   props.setTitleWarning("");
-          // }
+          if (props.title === "Ссылка") {
+            if (text !== "" && !text.includes("https://")) {
+              props.setLinkWarning("Ссылка должна начинаться с https://");
+            } else {
+              props.setLinkWarning("");
+            }
+          }
+          if (props.title === "Название" && text !== "") {
+            props.setTitleWarning("");
+          }
           if (props.title === "Название") {
             db.checkRecipeExists(props.title, text, props.setTitleWarning);
           }

@@ -45,6 +45,8 @@ export type TypeAddRecipeButton = {
   setTitle: Dispatch<SetStateAction<string>>;
   setLink: Dispatch<SetStateAction<string>>;
   setDescription: Dispatch<SetStateAction<string>>;
+  setRecipeTypeFilters: Dispatch<SetStateAction<string[]>>;
   setTitleWarning: Dispatch<SetStateAction<string>>;
+  setLinkWarning: Dispatch<SetStateAction<string>>;
   setRecipesFetched: Dispatch<SetStateAction<boolean>>;
 };

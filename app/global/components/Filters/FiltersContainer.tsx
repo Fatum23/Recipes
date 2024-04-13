@@ -7,7 +7,13 @@ import {
   TouchableWithoutFeedback,
   FlatList,
 } from "react-native";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { AntDesign } from "@expo/vector-icons";
 
 import * as db from "../../services/db/dbService";
@@ -22,6 +28,7 @@ export default function FiltersContainer(props: {
   setRecipesFetched: Dispatch<SetStateAction<boolean>>;
 }) {
   const [filters, setFilters] = useState<TypeFilter[]>([]);
+  const memoizedFilters = useMemo(() => filters, [filters]);
   const [filtersFetched, setFiltersFetched] = useState<boolean>(true);
   const [search, setSearch] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
@@ -76,7 +83,7 @@ export default function FiltersContainer(props: {
             style={styles.filtersView}
             removeClippedSubviews={false}
             showsVerticalScrollIndicator={true}
-            data={filters}
+            data={memoizedFilters}
             windowSize={2}
             initialNumToRender={50}
             maxToRenderPerBatch={50}

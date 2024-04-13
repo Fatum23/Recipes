@@ -1,5 +1,5 @@
 import { Text, StyleSheet, View, ActivityIndicator } from "react-native";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import RecipeCard from "./RecipeCard/RecipeCard";
 import { gColors } from "../../../global/styles/gColors";
 
@@ -9,6 +9,7 @@ import Animated, {
   withTiming,
   Easing,
 } from "react-native-reanimated";
+import SelecedRecipesMenu from "./SelectedRecipesMenu";
 
 export default function RecipeList(props: {
   loading: boolean;
@@ -21,6 +22,10 @@ export default function RecipeList(props: {
   searchDescriptionFilter: string;
   recipeTypeFilters: string[];
 }) {
+  const [selectedRecipes, setSelectedRecipes] = useState<
+    { id: number; filters: string }[]
+  >([]);
+
   const recipesOpacityStyle = useAnimatedStyle(() => {
     return {
       opacity: withTiming(props.loading ? 0 : 1, {
@@ -88,6 +93,12 @@ export default function RecipeList(props: {
         backgroundColor: "white",
       }}
     >
+      <SelecedRecipesMenu
+        recipes={props.recipes}
+        selectedRecipes={selectedRecipes}
+        setSelectedRecipes={setSelectedRecipes}
+        setRecipesFetched={props.setRecipesFetched}
+      />
       <Animated.FlatList
         style={[styles.flatlist, recipesOpacityStyle]}
         contentContainerStyle={styles.content}
@@ -114,6 +125,8 @@ export default function RecipeList(props: {
             searchTitleFilter={props.searchTitleFilter}
             searchLinkFilter={props.searchLinkFilter}
             searchDescriptionFilter={props.searchDescriptionFilter}
+            selectedRecipes={selectedRecipes}
+            setSelectedRecipes={setSelectedRecipes}
           />
         )}
         automaticallyAdjustsScrollIndicatorInsets={false}

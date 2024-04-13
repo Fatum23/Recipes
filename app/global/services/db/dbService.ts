@@ -29,7 +29,6 @@ export const createTable = () => {
 };
 
 export const addRecipe = (recipe: TypeRecipe) => {
-  console.log(recipe.filters);
   db.transaction((tx) => {
     tx.executeSql(
       "INSERT INTO recipes (title, link, description, filters, addDate, editDate) VALUES (?, ?, ?, ?, ?, ?)",
@@ -183,7 +182,6 @@ export const editRecipe = (
       [recipe.id!],
       (_, { rows }) => {
         const filters = JSON.parse(rows._array[0].filters);
-        console.log(filters);
         filters.forEach((filter: string) => editFilter(filter, "decrease"));
       },
       (_, error) => {
