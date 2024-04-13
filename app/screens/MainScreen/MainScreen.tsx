@@ -31,7 +31,13 @@ export default function MainScreen() {
 
   useEffect(
     () => setRecipesFetched(false),
-    [sortFilter, searchTitleFilter, searchLinkFilter, searchDescriptionFilter]
+    [
+      sortFilter,
+      searchTitleFilter,
+      searchLinkFilter,
+      searchDescriptionFilter,
+      recipeTypeFilters,
+    ]
   );
 
   useEffect(() => {
@@ -42,6 +48,7 @@ export default function MainScreen() {
         searchTitleFilter,
         searchLinkFilter,
         searchDescriptionFilter,
+        recipeTypeFilters,
         (recipes: TypeRecipe[]) => {
           setRecipes(recipes);
           setRecipesFetched(true);

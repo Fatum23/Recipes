@@ -29,6 +29,7 @@ export const createTable = () => {
 };
 
 export const addRecipe = (recipe: TypeRecipe) => {
+  console.log(recipe.filters);
   db.transaction((tx) => {
     tx.executeSql(
       "INSERT INTO recipes (title, link, description, filters, addDate, editDate) VALUES (?, ?, ?, ?, ?, ?)",
@@ -63,6 +64,7 @@ export const getRecipes = (
   searchTitleFilter: string,
   searchLinkFilter: string,
   searchDescriptionFilter: string,
+  recipeTypeFilters: string[],
   successCallback: (recipes: TypeRecipe[]) => void,
   errorCallback: (error: sqlite.SQLError) => void
 ) => {
@@ -107,7 +109,21 @@ export const getRecipes = (
       params,
       (_, { rows }) => {
         const recipes: TypeRecipe[] = rows._array;
-        successCallback(recipes);
+        if (recipeTypeFilters.length === 0) {
+          successCallback(recipes);
+        } else {
+          let filteredRecipes: TypeRecipe[] = [];
+          recipes.forEach((recipe) => {
+            if (
+              recipeTypeFilters.every((filter) =>
+                JSON.parse(recipe.filters).includes(filter)
+              )
+            ) {
+              filteredRecipes.push(recipe);
+            }
+          });
+          successCallback(filteredRecipes);
+        }
       },
       (_, error) => {
         errorCallback(error);

@@ -31,6 +31,7 @@ export default function RecipeCard(
     useNavigation<NavigationProp<StackParamList, "AddRecipe">>();
   const styles = StyleSheet.create({
     container: {
+      pointerEvents: props.loading ? "none" : "auto",
       width: Dimensions.get("screen").width * 0.875,
       backgroundColor: "whitesmoke",
       margin: 20,
