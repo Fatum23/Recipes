@@ -3,6 +3,9 @@
 # dependencies
 node_modules/
 
+#extensions
+.VSCodeCounter
+
 # Expo
 .expo/
 dist/
