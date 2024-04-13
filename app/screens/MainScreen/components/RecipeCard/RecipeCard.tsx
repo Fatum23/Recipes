@@ -55,8 +55,14 @@ export default function RecipeCard(
     },
     recipeTypeFiltersContainer: {
       flexDirection: "row",
+      flexWrap: "wrap",
+    },
+    recipeTypeFilter: {
+      margin: 5,
+      alignSelf: "flex-start",
       padding: 10,
-      justifyContent: "space-evenly",
+      backgroundColor: gColors.green,
+      borderRadius: 15,
     },
     bottomContainer: {
       flexDirection: "row",
@@ -71,8 +77,6 @@ export default function RecipeCard(
       marginRight: 5,
     },
   });
-
-  console.log(props.filters + "dfjsdjfkl", typeof props.filters);
 
   return (
     <View
@@ -120,6 +124,20 @@ export default function RecipeCard(
       </View>
       <View style={styles.hr}></View>
 
+      <View style={styles.recipeTypeFiltersContainer}>
+        {JSON.parse(props.filters).map((filter: string) => (
+          <View key={filter}>
+            {filter !== "Понравившиеся" && (
+              <View style={styles.recipeTypeFilter}>
+                <Text style={{ color: "white", fontWeight: "500" }}>
+                  {filter}
+                </Text>
+              </View>
+            )}
+          </View>
+        ))}
+      </View>
+
       <View style={styles.hr}></View>
 
       <View style={styles.bottomContainer}>
@@ -159,7 +177,9 @@ export default function RecipeCard(
             <MaterialIcons name="edit" size={30} color="grey" />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => db.deleteRecipe(props.id!, props.setRecipesFetched)}
+            onPress={() =>
+              db.deleteRecipe(props.id!, props.filters, props.setRecipesFetched)
+            }
           >
             <MaterialIcons name="delete" size={30} color="grey" />
           </TouchableOpacity>

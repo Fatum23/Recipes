@@ -69,6 +69,7 @@ export default function MainScreen() {
         setSearchLinkFilter={setSearchLinkFilter}
         setSearchDescriptionFilter={setSearchDescriptionFilter}
         setRecipeTypeFilters={setRecipeTypeFilters}
+        setRecipesFetched={setRecipesFetched}
       />
       <RecipeList
         loading={loading}

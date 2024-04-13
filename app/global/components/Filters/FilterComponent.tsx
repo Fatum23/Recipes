@@ -17,8 +17,9 @@ type TypeFilterComponent = {
   title: string;
   count: number;
   active: boolean;
-  handleClick: (title: string) => void;
+  handleClick: (title: string, deleting: boolean) => void;
   setFiltersFetched: Dispatch<SetStateAction<boolean>>;
+  setRecipesFetched: Dispatch<SetStateAction<boolean>>;
 };
 export default function FilterComponent(props: TypeFilterComponent) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -102,8 +103,13 @@ export default function FilterComponent(props: TypeFilterComponent) {
                 padding: 10,
               }}
               onPress={() => {
-                props.handleClick(props.title);
-                db.deleteFilter(props.id, props.setFiltersFetched);
+                props.handleClick(props.title, true);
+                db.deleteFilter(
+                  props.id,
+                  props.title,
+                  props.setFiltersFetched,
+                  props.setRecipesFetched
+                );
               }}
             >
               <Text style={{ color: gColors.green, fontSize: 18 }}>Да</Text>
@@ -113,7 +119,7 @@ export default function FilterComponent(props: TypeFilterComponent) {
       </Modal>
       <TouchableOpacity
         style={{ flex: 1 }}
-        onPress={() => props.handleClick(props.title)}
+        onPress={() => props.handleClick(props.title, false)}
         onLongPress={() => {
           if (props.title !== "Понравившиеся") {
             setSelectedFilter(props.title);

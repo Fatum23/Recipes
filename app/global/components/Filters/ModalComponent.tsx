@@ -68,7 +68,7 @@ export default function ModalComponent(props: {
             style={{ padding: 10 }}
             onPress={() => {
               if (inputValue !== "") {
-                db.getFilters(inputValue, (result: TypeFilter[]) => {
+                db.checkFilterExists(inputValue, (result: TypeFilter[]) => {
                   if (result.length === 0) {
                     db.addFilter(inputValue);
                     props.setFiltersFetched(false);

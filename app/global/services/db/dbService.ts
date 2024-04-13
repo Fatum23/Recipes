@@ -36,13 +36,15 @@ export const addRecipe = (recipe: TypeRecipe) => {
         recipe.title,
         recipe.link,
         recipe.description,
-        JSON.stringify(recipe.filters),
+        recipe.filters,
         recipe.addDate,
         recipe.editDate,
       ],
       (_, { rowsAffected }) => {
         if (rowsAffected > 0) {
-          recipe.filters.forEach((filter) => editFilter(filter, "increase"));
+          JSON.parse(recipe.filters).forEach((filter: string) =>
+            editFilter(filter, "increase")
+          );
           console.log("Recipe added successfully");
         } else {
           console.log("Failed to add recipe");
@@ -117,19 +119,29 @@ export const getRecipes = (
 
 export const likeRecipe = async (
   id: number,
-  filters: string[],
+  filters: string,
   setRecipesFetched: Dispatch<SetStateAction<boolean>>
 ) => {
-  console.log(typeof filters);
   db.transaction((tx) => {
     tx.executeSql(
       "UPDATE recipes SET filters = ? WHERE id = ?",
-      [filters, id],
+      [
+        JSON.stringify(
+          JSON.parse(filters).includes("Понравившиеся")
+            ? JSON.parse(filters).filter(
+                (filter: string) => filter !== "Понравившиеся"
+              )
+            : JSON.parse(filters).concat("Понравившиеся")
+        ),
+        id,
+      ],
       (txObj, resultSet) => {
         if (resultSet.rowsAffected > 0) {
           editFilter(
             "Понравившиеся",
-            filters.includes("Понравившиеся") ? "decrease" : "increase"
+            JSON.parse(filters).includes("Понравившиеся")
+              ? "decrease"
+              : "increase"
           );
           setRecipesFetched(false);
           console.log("Row updated successfully");
@@ -151,18 +163,34 @@ export const editRecipe = (
 ) => {
   db.transaction((tx) => {
     tx.executeSql(
+      "SELECT * FROM recipes WHERE id = ?",
+      [recipe.id!],
+      (_, { rows }) => {
+        const filters = JSON.parse(rows._array[0].filters);
+        console.log(filters);
+        filters.forEach((filter: string) => editFilter(filter, "decrease"));
+      },
+      (_, error) => {
+        console.log(error);
+        return false;
+      }
+    );
+    tx.executeSql(
       "UPDATE recipes SET title = ?, link = ?, description = ?, filters = ?, addDate = ?, editDate = ?  WHERE id = ?",
       [
         recipe.title,
         recipe.link,
         recipe.description,
-        JSON.stringify(recipe.filters),
+        recipe.filters,
         recipe.addDate,
         recipe.editDate,
         recipe.id!,
       ],
       (txObj, resultSet) => {
         if (resultSet.rowsAffected > 0) {
+          JSON.parse(recipe.filters).forEach((filter: string) =>
+            editFilter(filter, "increase")
+          );
           setRecipesFetched(false);
           console.log("Row updated successfully");
         } else {
@@ -179,6 +207,7 @@ export const editRecipe = (
 
 export const deleteRecipe = (
   id: number,
+  filters: string,
   setRecipesFetched: Dispatch<SetStateAction<boolean>>
 ) => {
   db.transaction((tx) => {
@@ -186,6 +215,9 @@ export const deleteRecipe = (
       "DELETE FROM recipes WHERE id = ?",
       [id],
       (tx, result) => {
+        JSON.parse(filters).forEach((filter: string) =>
+          editFilter(filter, "decrease")
+        );
         if (result.rowsAffected > 0) {
           setRecipesFetched(false);
         } else {
@@ -277,6 +309,25 @@ export const getFilters = (
   });
 };
 
+export const checkFilterExists = (
+  title: string,
+  successCallback: (filters: TypeFilter[]) => void
+) => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      "SELECT * FROM filters WHERE title = ?",
+      [title],
+      (_, { rows }) => {
+        successCallback(rows._array);
+      },
+      (_, error) => {
+        console.log(error);
+        return false;
+      }
+    );
+  });
+};
+
 export const getFilterCount = (
   title: string,
   successCallback: (count: number) => void
@@ -320,7 +371,9 @@ export const editFilter = (title: string, editWay: "increase" | "decrease") => {
 
 export const deleteFilter = (
   id: number,
-  setFiltersFetched: Dispatch<SetStateAction<boolean>>
+  title: string,
+  setFiltersFetched: Dispatch<SetStateAction<boolean>>,
+  setRecipesFetched: Dispatch<SetStateAction<boolean>>
 ) => {
   db.transaction((tx) => {
     tx.executeSql(
@@ -328,13 +381,55 @@ export const deleteFilter = (
       [id],
       (tx, result) => {
         if (result.rowsAffected > 0) {
-          setFiltersFetched(false);
+          console.log("Filter deleted successfully");
         } else {
           console.log("Filter not found");
         }
       },
       (tx, error) => {
         console.log(error);
+        return false;
+      }
+    );
+    tx.executeSql(
+      "SELECT * FROM recipes WHERE filters LIKE '%' || ? || '%'",
+      [title],
+      (_, { rows }) => {
+        rows._array.forEach((recipe: TypeRecipe) =>
+          deleteFilterFromRecipe(recipe.id!, recipe.filters, title)
+        );
+        setFiltersFetched(false);
+        setRecipesFetched(false);
+      },
+      (_, error) => {
+        console.log(error);
+        return false;
+      }
+    );
+  });
+};
+
+const deleteFilterFromRecipe = (
+  recipeId: number,
+  recipeFilters: string,
+  filter: string
+) => {
+  const updatedFilters: string[] = JSON.parse(recipeFilters).filter(
+    (recipeFilter: string) => recipeFilter != filter
+  );
+  db.transaction((tx) => {
+    tx.executeSql(
+      "UPDATE recipes SET filters = ? WHERE id = ?",
+      [JSON.stringify(updatedFilters), recipeId],
+      (txObj, resultSet) => {
+        if (resultSet.rowsAffected > 0) {
+          console.log("Recipe filters updated successfully");
+        } else {
+          console.log("Recipe filters not updated");
+        }
+      },
+      (_, err: sqlite.SQLError) => {
+        console.log(err);
         return false;
       }
     );

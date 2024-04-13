@@ -19,6 +19,7 @@ import ModalComponent from "./ModalComponent";
 export default function FiltersContainer(props: {
   activeFilters: string[];
   setActiveFilters: Dispatch<SetStateAction<string[]>>;
+  setRecipesFetched: Dispatch<SetStateAction<boolean>>;
 }) {
   const [filters, setFilters] = useState<TypeFilter[]>([]);
   const [filtersFetched, setFiltersFetched] = useState<boolean>(true);
@@ -64,38 +65,47 @@ export default function FiltersContainer(props: {
         setModalVisible={setModalVisible}
         setFiltersFetched={setFiltersFetched}
       />
-      <View style={{ alignItems: "flex-start" }}>
-        <FlatList
-          horizontal
-          style={styles.filtersView}
-          removeClippedSubviews={false}
-          showsVerticalScrollIndicator={true}
-          scrollIndicatorInsets={{ right: 10 }}
-          data={filters}
-          windowSize={2}
-          initialNumToRender={50}
-          maxToRenderPerBatch={50}
-          renderItem={({ item }) => (
-            <FilterComponent
-              id={item.id!}
-              title={item.title}
-              count={item.count}
-              active={props.activeFilters.includes(item.title)}
-              handleClick={(title: string) =>
-                props.setActiveFilters((prevState) => {
-                  if (props.activeFilters.includes(title)) {
-                    return prevState.filter((filter) => filter !== title);
-                  }
-                  return prevState.concat(title);
-                })
-              }
-              setFiltersFetched={setFiltersFetched}
-            />
-          )}
-          automaticallyAdjustsScrollIndicatorInsets={false}
-          keyExtractor={(item) => item.id!.toString()}
-        />
-      </View>
+      {filters.length === 0 && search !== "" ? (
+        <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 20 }}>
+          Такие фильтры не найдены...
+        </Text>
+      ) : (
+        <View style={{ alignItems: "flex-start" }}>
+          <FlatList
+            horizontal
+            style={styles.filtersView}
+            removeClippedSubviews={false}
+            showsVerticalScrollIndicator={true}
+            data={filters}
+            windowSize={2}
+            initialNumToRender={50}
+            maxToRenderPerBatch={50}
+            renderItem={({ item }) => (
+              <FilterComponent
+                key={item.id!.toString()}
+                id={item.id!}
+                title={item.title}
+                count={item.count}
+                active={props.activeFilters.includes(item.title)}
+                handleClick={(title: string, deleting: boolean) =>
+                  props.setActiveFilters((prevState) => {
+                    if (props.activeFilters.includes(title)) {
+                      return prevState.filter((filter) => filter !== title);
+                    } else if (!deleting) {
+                      return prevState.concat(title);
+                    }
+                    return prevState;
+                  })
+                }
+                setFiltersFetched={setFiltersFetched}
+                setRecipesFetched={props.setRecipesFetched}
+              />
+            )}
+            automaticallyAdjustsScrollIndicatorInsets={false}
+            keyExtractor={(item) => item.id!.toString()}
+          />
+        </View>
+      )}
     </View>
   );
 }

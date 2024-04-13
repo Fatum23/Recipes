@@ -20,7 +20,7 @@ export default function AddRecipeButton(props: {
           title: "",
           link: "",
           description: "",
-          filters: [],
+          filters: "[]",
           addDate: "",
           editDate: "",
           setRecipesFetched: props.setGetRecipe,

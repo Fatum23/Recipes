@@ -16,7 +16,7 @@ const addRecipe = (props: TypeAddRecipeButton) => {
     title: props.title,
     link: props.link,
     description: props.description,
-    filters: props.filters,
+    filters: JSON.stringify(props.filters),
     addDate: new Date().toLocaleString().replace(", ", " "),
     editDate: "",
   });
@@ -30,7 +30,7 @@ const editRecipe = (props: TypeAddRecipeButton) => {
       title: props.title,
       link: props.link,
       description: props.description,
-      filters: props.filters,
+      filters: JSON.stringify(props.filters),
       addDate: props.addDate,
       editDate: new Date().toLocaleString().replace(", ", " "),
     },

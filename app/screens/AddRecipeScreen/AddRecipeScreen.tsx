@@ -18,7 +18,9 @@ export default function AddRecipeScreen({
   const [description, setDescription] = useState(route.params.description);
 
   const [recipeTypeFilters, setRecipeTypeFilters] = useState<string[]>(
-    route.params.filters
+    typeof route.params.filters === "string"
+      ? JSON.parse(route.params.filters)
+      : route.params.filters
   );
 
   const [titleWarning, setTitleWarning] = useState("");
@@ -45,6 +47,7 @@ export default function AddRecipeScreen({
       <FiltersContainer
         activeFilters={recipeTypeFilters}
         setActiveFilters={setRecipeTypeFilters}
+        setRecipesFetched={route.params.setRecipesFetched}
       />
       <AddRecipeButton
         action={route.params.action}

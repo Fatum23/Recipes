@@ -1,13 +1,6 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  Dimensions,
-  KeyboardAvoidingView,
-  ScrollView,
-  TextInput,
-  View,
-  Text,
-} from "react-native";
-import React, { useEffect, useState } from "react";
+import { KeyboardAvoidingView, ScrollView } from "react-native";
+import React, { useState } from "react";
 
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackParamList, TypeSortFilter } from "../../global/types/gTypes";
@@ -19,7 +12,6 @@ import SearchInput from "./components/SearchInput";
 import SearchLinkWarning from "./components/SearchLinkWarning";
 import BottomButtons from "./components/BottomButtons";
 import FiltersContainer from "../../global/components/Filters/FiltersContainer";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function FiltersScreen({
   route,
@@ -73,6 +65,7 @@ export default function FiltersScreen({
           <FiltersContainer
             activeFilters={activeFilters}
             setActiveFilters={setActiveFilters}
+            setRecipesFetched={route.params.setRecipesFetched}
           />
           <BottomButtons
             sortFilter={sortFilter}

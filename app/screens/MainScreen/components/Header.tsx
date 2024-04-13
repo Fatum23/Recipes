@@ -1,12 +1,16 @@
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
-import React from "react";
-import { Ionicons, SimpleLineIcons } from "@expo/vector-icons";
+import React, { Dispatch, SetStateAction } from "react";
+import { SimpleLineIcons } from "@expo/vector-icons";
 import { gColors } from "../../../global/styles/gColors";
 import { StackParamList, TypeFilterScreen } from "../../../global/types/gTypes";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 
-export default function Header(props: TypeFilterScreen) {
+export default function Header(
+  props: TypeFilterScreen & {
+    setRecipesFetched: Dispatch<SetStateAction<boolean>>;
+  }
+) {
   type NavigationProp = StackNavigationProp<StackParamList, "Filters">;
   const navigation = useNavigation<NavigationProp>();
 

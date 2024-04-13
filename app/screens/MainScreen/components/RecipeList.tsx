@@ -6,7 +6,6 @@ import { gColors } from "../../../global/styles/gColors";
 import { TypeRecipe, TypeSortFilter } from "../../../global/types/gTypes";
 import Animated, {
   useAnimatedStyle,
-  useSharedValue,
   withTiming,
   Easing,
 } from "react-native-reanimated";
@@ -22,7 +21,6 @@ export default function RecipeList(props: {
   searchDescriptionFilter: string;
   recipeTypeFilters: string[];
 }) {
-  const recipesOpacity = useSharedValue(0);
   const recipesOpacityStyle = useAnimatedStyle(() => {
     return {
       opacity: withTiming(props.loading ? 0 : 1, {
@@ -32,7 +30,6 @@ export default function RecipeList(props: {
     };
   });
 
-  const loadingOpacity = useSharedValue(1);
   const loadingOpacityStyle = useAnimatedStyle(() => {
     return {
       opacity: withTiming(props.loading ? 1 : 0, {
@@ -42,7 +39,6 @@ export default function RecipeList(props: {
     };
   });
 
-  const noRecipesOpacity = useSharedValue(1);
   const noRecipesOpacityStyle = useAnimatedStyle(() => {
     return {
       opacity: withTiming(
@@ -63,7 +59,6 @@ export default function RecipeList(props: {
     };
   });
 
-  const noRecipesFoundOpacity = useSharedValue(0);
   const noRecipesFoundOpacityStyle = useAnimatedStyle(() => {
     return {
       opacity: withTiming(
@@ -97,7 +92,7 @@ export default function RecipeList(props: {
         style={[styles.flatlist, recipesOpacityStyle]}
         contentContainerStyle={styles.content}
         removeClippedSubviews={false}
-        showsVerticalScrollIndicator={true} // Enable the scrollbar on Android
+        showsVerticalScrollIndicator={true}
         scrollIndicatorInsets={{ right: 10 }}
         data={props.recipes}
         windowSize={2}
@@ -105,8 +100,9 @@ export default function RecipeList(props: {
         maxToRenderPerBatch={50}
         renderItem={({ item, index }: { item: TypeRecipe; index: number }) => (
           <RecipeCard
+            key={item.id!.toString()}
             id={item.id}
-            title={typeof JSON.parse(item.filters)}
+            title={item.title}
             link={item.link}
             description={item.description}
             filters={item.filters}

@@ -7,7 +7,9 @@ export type StackParamList = {
     action: "Добавить" | "Редактировать";
     setRecipesFetched: Dispatch<SetStateAction<boolean>>;
   } & TypeRecipe;
-  Filters: TypeFilterScreen;
+  Filters: TypeFilterScreen & {
+    setRecipesFetched: Dispatch<SetStateAction<boolean>>;
+  };
 };
 
 export type TypeFilterScreen = {
@@ -36,7 +38,7 @@ export type TypeRecipe = {
   title: string;
   link: string;
   description: string;
-  filters: string[];
+  filters: string;
   addDate: string;
   editDate: string;
 };
