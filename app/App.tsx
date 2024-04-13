@@ -1,8 +1,5 @@
 import { registerRootComponent } from "expo";
 import { StatusBar } from "expo-status-bar";
-import * as NavigationBar from "expo-navigation-bar";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useEffect } from "react";
@@ -12,25 +9,35 @@ import AddRecipeScreen from "./screens/AddRecipeScreen/AddRecipeScreen";
 import FiltersScreen from "./screens/FiltersScreen/FiltersScreen";
 import { StackParamList } from "./global/types/gTypes";
 
-import { LogBox } from "react-native";
+import { Alert, Linking, LogBox } from "react-native";
+import { ShareMenu } from "react-native-share-menu";
 LogBox.ignoreLogs([
   "Non-serializable values were found in the navigation state",
 ]);
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
-SplashScreen.preventAutoHideAsync();
-
 function App() {
-  const [fontsLoaded] = useFonts({
-    "Gilroy-Medium": require("./global/assets/fonts/Gilroy-Medium.ttf"),
-    "Montserrat-Medium": require("./global/assets/fonts/Montserrat-Medium.ttf"),
-  });
-  if (fontsLoaded) {
-    SplashScreen.hideAsync();
-  } else {
-    return;
-  }
+  useEffect(() => {
+    const handleShareMenu = async () => {
+      try {
+        const sharedData = await ShareMenu.data();
+        if (sharedData) {
+          // Обработка полученных данных (например, sharedData.url)
+          console.log("Получены данные:", sharedData);
+        }
+      } catch (error) {
+        console.error("Ошибка при обработке данных:", error);
+      }
+    };
+
+    handleShareMenu();
+
+    // Очищаем обработчик при размонтировании компонента
+    return () => {
+      ShareMenu.removeListener("data", handleShareMenu);
+    };
+  }, []);
 
   return (
     <NavigationContainer>
