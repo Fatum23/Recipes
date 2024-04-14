@@ -2,6 +2,7 @@
   "expo": {
     "name": "Recipes",
     "slug": "Recipes",
+    "scheme": "recipes",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./app/global/assets/images/app-icon.png",
@@ -39,6 +40,7 @@
       "eas": {
         "projectId": "f72b0523-bc03-45d3-85a3-36e391601089"
       }
-    }
+    },
+    "plugins": ["expo-share-intent"]
   }
 }

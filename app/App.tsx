@@ -9,8 +9,9 @@ import AddRecipeScreen from "./screens/AddRecipeScreen/AddRecipeScreen";
 import FiltersScreen from "./screens/FiltersScreen/FiltersScreen";
 import { StackParamList } from "./global/types/gTypes";
 
-import { Alert, Linking, LogBox } from "react-native";
-import { ShareMenu } from "react-native-share-menu";
+import { Alert, Linking, LogBox, Text } from "react-native";
+import * as SharingIntent from "expo-share-intent";
+import { useShareIntent } from "expo-share-intent";
 LogBox.ignoreLogs([
   "Non-serializable values were found in the navigation state",
 ]);
@@ -18,30 +19,16 @@ LogBox.ignoreLogs([
 const Stack = createNativeStackNavigator<StackParamList>();
 
 function App() {
-  useEffect(() => {
-    const handleShareMenu = async () => {
-      try {
-        const sharedData = await ShareMenu.data();
-        if (sharedData) {
-          // Обработка полученных данных (например, sharedData.url)
-          console.log("Получены данные:", sharedData);
-        }
-      } catch (error) {
-        console.error("Ошибка при обработке данных:", error);
-      }
-    };
-
-    handleShareMenu();
-
-    // Очищаем обработчик при размонтировании компонента
-    return () => {
-      ShareMenu.removeListener("data", handleShareMenu);
-    };
-  }, []);
+  const { hasShareIntent, shareIntent, resetShareIntent, error } =
+    useShareIntent({
+      debug: true,
+      resetOnBackground: true,
+    });
 
   return (
     <NavigationContainer>
       <StatusBar backgroundColor="white" style="dark" />
+      <Text>{JSON.stringify(shareIntent.meta)}</Text>
       <Stack.Navigator initialRouteName="Main">
         <Stack.Screen
           name="Main"
