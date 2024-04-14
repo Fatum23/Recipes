@@ -4,7 +4,7 @@
 node_modules/
 
 #extensions
-.VSCodeCounter
+.VSCodeCounter/
 
 # Expo
 .expo/
