@@ -12,7 +12,7 @@
     },
     "production": {
       "credentialsSource": "local",
-      "distribution": "store"
+      "distribution": "internal"
     }
   },
   "submit": {
