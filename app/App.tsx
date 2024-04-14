@@ -10,8 +10,6 @@ import FiltersScreen from "./screens/FiltersScreen/FiltersScreen";
 import { StackParamList } from "./global/types/gTypes";
 
 import { Alert, Linking, LogBox, Text } from "react-native";
-import * as SharingIntent from "expo-share-intent";
-import { useShareIntent } from "expo-share-intent";
 LogBox.ignoreLogs([
   "Non-serializable values were found in the navigation state",
 ]);
@@ -19,16 +17,9 @@ LogBox.ignoreLogs([
 const Stack = createNativeStackNavigator<StackParamList>();
 
 function App() {
-  const { hasShareIntent, shareIntent, resetShareIntent, error } =
-    useShareIntent({
-      debug: true,
-      resetOnBackground: true,
-    });
-
   return (
     <NavigationContainer>
       <StatusBar backgroundColor="white" style="dark" />
-      <Text>{JSON.stringify(shareIntent.meta)}</Text>
       <Stack.Navigator initialRouteName="Main">
         <Stack.Screen
           name="Main"

@@ -13,16 +13,6 @@
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": ["**/*"],
-    "intentFilters": [
-      {
-        "action": "VIEW",
-        "data": {
-          "scheme": "https",
-          "host": "example.com"
-        },
-        "category": ["BROWSABLE", "DEFAULT"]
-      }
-    ],
     "ios": {
       "supportsTablet": true
     },
@@ -41,6 +31,13 @@
         "projectId": "f72b0523-bc03-45d3-85a3-36e391601089"
       }
     },
-    "plugins": ["expo-share-intent"]
+    "plugins": [
+      [
+        "expo-share-intent",
+        {
+          "androidIntentFilters": ["text/*"]
+        }
+      ]
+    ]
   }
 }
